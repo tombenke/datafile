@@ -1,0 +1,5 @@
+planets:
+    Mars:
+        moons:
+            Deimos: {}
+            Phobos: {}

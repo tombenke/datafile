@@ -1,0 +1,19 @@
+planets:
+    Mercury:
+        numOfMoons: 0
+    Venus:
+        numOfMoons: 0
+    Earth:
+        numOfMoons: 1
+    Mars:
+        numOfMoons: 2
+    Jupiter:
+        numOfMoons: 67
+    Saturn:
+        numOfMoons: 62
+    Neptune:
+        numOfMoons: 14
+    Uranus:
+        numOfMoons: 27
+    Pluto:
+        numOfMoons: 5

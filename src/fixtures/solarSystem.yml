@@ -1,0 +1,23 @@
+# This is a simple YAMl format data file
+name: The Solar System
+format: YAML
+comment: It contains only the names of planets
+planets:
+    Mercury:
+        earthMass: 0.0553
+    Venus:
+        earthMass: 0.815
+    Earth:
+        earthMass: 1
+    Mars:
+        earthMass: 0.11
+    Jupiter:
+        earthMass: 317.8
+    Saturn:
+        earthMass: 95.2
+    Neptune:
+        earthMass: 14.6
+    Uranus:
+        earthMass: 17.2
+    Pluto:
+        earthMass: 0.0024
