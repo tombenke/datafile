@@ -1,38 +1,72 @@
 import expect from 'expect'
-import { loadDataFile, loadData } from './index'
+import * as _ from 'lodash'
+import {
+    loadDataFileSync,
+    mergeDataFilesSync,
+    listFilesSync,
+    findFilesSync,
+    mergeDataFilesByKeySync,
+    loadData // alias mergeDataFilesSync, DEPRECATED
+} from './index'
 
 describe('datafile', () => {
 
-    it('loadDataFile - load a single file', () => {
-        const data = loadDataFile('src/fixtures/solarSystem.yml', false)
+    it('loadDataFileSync - load a single file', () => {
+        const data = loadDataFileSync('src/fixtures/solarSystem.yml', false)
         expect(data).toBeA('object')
         expect(data).toIncludeKeys(['name', 'format', 'comment', 'planets'])
         expect(data.name).toEqual('The Solar System')
         expect(data.planets).toBeAn('object')
     })
 
-    it('loadDataFile - try to load a non-existing file with no-exit-on-error', () => {
-        const data = loadDataFile('src/fixtures/slrSystem.yml', false)
+    it('loadDataFileSync - try to load a non-existing file (throws exception)', () => {
+        try {
+            loadDataFileSync('src/fixtures/slrSystem.yml')
+        } catch (err) {
+            expect(err).toBeAn(Error)
+        }
+    })
+
+    it('loadDataFileSync - try to load a non-existing file (throws no exception)', () => {
+        const data = loadDataFileSync('src/fixtures/slrSystem.yml', false)
         expect(data).toBeA('object')
         expect(data).toEqual({})
     })
 
-    it('loadDataFile - try to load with no name and with no-exit-on-error', () => {
-        const data = loadDataFile(null, false)
+    it('loadDataFileSync - try to load with no name (throws exception)', () => {
+        try {
+            loadDataFileSync(null)
+        } catch (err) {
+            expect(err).toEqual('Error: File name is missing!')
+        }
+    })
+
+    it('loadDataFileSync - try to load with no name (throws no exception)', () => {
+        const data = loadDataFileSync(null, false)
         expect(data).toBeA('object')
         expect(data).toEqual({})
     })
 
-    it('loadData - load a single file', () => {
-        const data = loadData(['src/fixtures/solarSystem.yml'])
+    it('mergeDataFilesSync - load a single file', () => {
+        const data = mergeDataFilesSync(['src/fixtures/solarSystem.yml'])
         expect(data).toBeA('object')
         expect(data).toIncludeKeys(['name', 'format', 'comment', 'planets'])
         expect(data.name).toEqual('The Solar System')
         expect(data.planets).toBeAn('object')
     })
 
-    it('loadData - merging several files', () => {
-        const data = loadData([
+    it('loadDataSync - merging several files', () => {
+        const filesToMerge = [
+            'src/fixtures/solarSystem.yml',
+            'src/fixtures/moons.yml',
+            'src/fixtures/earth.yml',
+            'src/fixtures/mars.yml'
+        ]
+        expect(loadData(filesToMerge)).toEqual(mergeDataFilesSync(filesToMerge))
+    })
+
+    it('mergeDataFilesSync - merging several files', () => {
+        const data = mergeDataFilesSync([
                 'src/fixtures/solarSystem.yml',
                 'src/fixtures/moons.yml',
                 'src/fixtures/earth.yml',
@@ -57,4 +91,31 @@ describe('datafile', () => {
         expect(data.planets.Mars).toEqual(mars)
     })
 
+    it('listFilesSync - list files (recursive)', () => {
+        expect(listFilesSync('src/fixtures/')).toEqual([
+            'src/fixtures/earth.yml',
+            'src/fixtures/mars.yml',
+            'src/fixtures/moons.yml',
+            'src/fixtures/solarSystem.yml',
+            'src/fixtures/tree/services/customers/customer/service.yml',
+            'src/fixtures/tree/services/customers/service.yml',
+            'src/fixtures/tree/services/defaults/noHeaders/service.yml',
+            'src/fixtures/tree/services/defaults/noTestCases/service.yml',
+            'src/fixtures/tree/services/monitoring/isAlive/service.yml'
+        ])
+    })
+
+    it('listFilesSync - list files (non-recursive)', () => {
+        expect(listFilesSync('src/fixtures/', false)).toEqual([ 'earth.yml', 'mars.yml', 'moons.yml', 'solarSystem.yml' ])
+    })
+
+    it('findFilesSync - find s*.yml files (non-recursive)', () => {
+        expect(findFilesSync('src/fixtures/', /^s.+\.yml$/, false)).toEqual([ 'solarSystem.yml' ])
+    })
+
+    it('findFilesSync - find s*.yml files and merge them by urlPattern|urlTemplate keys', () => {
+        const fileListToMerge = findFilesSync('src/fixtures/', /^s.+\.yml$/)
+        const results = mergeDataFilesByKeySync(fileListToMerge, 'uriTemplate', mergeDataFilesByKeySync(fileListToMerge, 'urlPattern'))
+        expect(_.keys(results)).toEqual([ '/customers/{id}', '/customers', '/monitoring/isAlive', '/defaults/noHeaders', '/defaults/noTestCases' ])
+    })
 })

@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Data file loader functions</p></div>
+            <div class="description"><p>Data file handler functions.</p></div>
         
 
         
@@ -137,7 +137,7 @@
     
 
     
-    <h4 class="name" id=".loadData"><span class="type-signature">(static) </span>loadData<span class="signature">(listOfDataFiles)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".findFilesSync"><span class="type-signature">(static) </span>findFilesSync<span class="signature">(baseDir, pattern)</span><span class="type-signature"> &rarr; {Array}</span></h4>
     
 
     
@@ -145,10 +145,8 @@
 
 
 <div class="description">
-    <p>Load data</p>
-<p>Loads each data files, and merges them into one object.
-The merging begins with an empty object, and the objects loaded from the data files extend this
-initial object in order of listing in the array.</p>
+    <p>Find files by name pattern.</p>
+<p>Recursively finds the files under the <code>baseDir</code> directory, that have name which matches the <code>pattern</code>.</p>
 </div>
 
 
@@ -184,13 +182,13 @@ initial object in order of listing in the array.</p>
 
         <tr>
             
-                <td class="name"><code>listOfDataFiles</code></td>
+                <td class="name"><code>baseDir</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array</span>
+<span class="param-type">String</span>
 
 
             
@@ -200,7 +198,30 @@ initial object in order of listing in the array.</p>
 
             
 
-            <td class="description last"><p>The list of paths to the data files to be loaded</p></td>
+            <td class="description last"><p>The path to the base directory to start searching.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pattern</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">RegExp</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The regular expression pattern to match the filenames.</p></td>
         </tr>
 
     
@@ -264,7 +285,7 @@ initial object in order of listing in the array.</p>
         
 <div class="param-desc">
     <ul>
-<li>The resulted data object</li>
+<li>The list of file paths found</li>
 </ul>
 </div>
 
@@ -276,7 +297,7 @@ initial object in order of listing in the array.</p>
     </dt>
     <dd>
         
-<span class="param-type">Object</span>
+<span class="param-type">Array</span>
 
 
     </dd>
@@ -294,7 +315,271 @@ initial object in order of listing in the array.</p>
     
 
     
-    <h4 class="name" id=".loadDataFile"><span class="type-signature">(static) </span>loadDataFile<span class="signature">(fileName, exitOnError)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".listFilesSync"><span class="type-signature">(static) </span>listFilesSync<span class="signature">(baseDir, recurse)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>List files of a directory recursively or top level only</p>
+<p>Recursively lists the files under the <code>baseDir</code> directory.
+Skips directory names from the result list. Only files will be listed.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>baseDir</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The path to the base directory to start searching.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>recurse</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p><code>true</code> tells to recursively list the subdirectories as well.
+<code>false</code> means, only the <code>baseDir</code> content will be listed. Default: <code>true</code>.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>The list of file paths found.</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".loadData"><span class="type-signature">(static) </span>loadData<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Load the listed data files and merge them into a single object.</p>
+<p>It is an alias of the mergeFiles function.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <dt class="important tag-deprecated">Deprecated:</dt><dd class="yes-def tag-deprecated"><ul class="dummy"><li>Yes</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".loadDataFileSync"><span class="type-signature">(static) </span>loadDataFileSync<span class="signature">(fileName, exitOnError)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -472,7 +757,7 @@ initial object in order of listing in the array.</p>
     
 
     
-    <h4 class="name" id="~mergeDataFile"><span class="type-signature">(inner) </span>mergeDataFile<span class="signature">(acc, dataFileName)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".mergeDataFilesByKeySync"><span class="type-signature">(static) </span>mergeDataFilesByKeySync<span class="signature">(listOfDataFiles, keyProp)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -480,7 +765,509 @@ initial object in order of listing in the array.</p>
 
 
 <div class="description">
-    <p>Merge data file</p>
+    <p>Load objects from files and merge them into one object using one of their properties as a key.</p>
+<p>Loads each data files, and merges them into one object.</p>
+<p>The merging begins with an empty object, and the objects loaded from the data files extend this
+initial object in the order they were listed in the array.</p>
+<p>Each object is added to the result as a property. The name of the property is determined by the
+object to merge. The <code>keyProp</code> parameter identifies the property in this object to merge that value
+that will be used as a property name in the new object. This value should be unique among the objects
+to merge.</p>
+<p>For example the each file to merge contains a document of a bigger collection, and has an <code>id</code> field,
+which holds an <code>uuid</code> unique ID value of the document. The <code>keyProp</code> should be <code>&quot;id&quot;</code>, and the result
+of merging will be an object, which has as many properties as the number of merged files,
+and each property holds the complete loaded object, and the name of the property is the <code>uuid</code> value.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>listOfDataFiles</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The list of paths to the data files to be loaded</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyProp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The name of the property that's value is used as a key</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>The resulted data object</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".mergeDataFilesSync"><span class="type-signature">(static) </span>mergeDataFilesSync<span class="signature">(listOfDataFiles)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Load the listed data files and merge them into a single object.</p>
+<p>Loads each data files, and merges them into one object.
+The merging begins with an empty object, and the objects loaded from the data files extend this
+initial object in order of listing in the array.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>listOfDataFiles</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The list of paths to the data files to be loaded</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>The resulted data object</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~mergeDataFileByKeySync"><span class="type-signature">(inner) </span>mergeDataFileByKeySync<span class="signature">(keyProp)</span><span class="type-signature"> &rarr; {function}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Creates a function that merge a single file into an accumulator object, using a unique value as a key.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>keyProp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The name of the property that's value will be used as a key
+to add the loaded data to the accumator to merge.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>The merge function with the following signature:
+function(acc: Object, dataFileName : String), where the <code>dataFileName</code> is the path to the data file
+to merge, and the <code>acc</code> the accumulator object, to merge the data into.</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">function</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~mergeDataFileSync"><span class="type-signature">(inner) </span>mergeDataFileSync<span class="signature">(acc, dataFileName)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Load and merge one data file into the accumulator object.</p>
 <p>Get an accumulator object, then load the data from the file identified by the <code>dataFileName</code> argument,
 then extend the accumulator object with the loaded data.</p>
 <p>Note: The function returns with a new object, and the original object will not be modified.</p>
