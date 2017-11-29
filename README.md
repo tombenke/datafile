@@ -18,7 +18,7 @@ Run the install command:
 
 ## Development
 
-During development to create the dist package, run either:
+During the development to create the dist package, run either:
 
 ```bash
     npm run build
