@@ -6,7 +6,6 @@ datafile
 [![Build Status][travis-badge]][travis-url]
 [![Coveralls][BadgeCoveralls]][Coveralls]
 
-
 Generic utility functions for loading data files
 
 ## Installation
@@ -29,7 +28,6 @@ or use
 ```bash
     npm run test:watch
 ```
-
 
 Update the documentation:
 

@@ -26,7 +26,7 @@ export const loadDataFileSync = function(fileName, raiseErrors=true) {
 
     if (fileName) {
         try {
-            content = yaml.safeLoad(fs.readFileSync(path.resolve(fileName)));
+            content = yaml.safeLoad(fs.readFileSync(path.resolve(fileName), { encoding: 'utf8' }));
         } catch (err) {
             if (raiseErrors) {
                 throw(err)

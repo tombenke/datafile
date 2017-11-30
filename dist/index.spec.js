@@ -17,7 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 describe('datafile', function () {
 
     it('loadDataFileSync - load a single file', function () {
-        var data = (0, _index.loadDataFileSync)('src/fixtures/solarSystem.yml', false);
+        var data = (0, _index.loadDataFileSync)('src/fixtures/merge/solarSystem.yml', false);
         (0, _expect2.default)(data).toBeA('object');
         (0, _expect2.default)(data).toIncludeKeys(['name', 'format', 'comment', 'planets']);
         (0, _expect2.default)(data.name).toEqual('The Solar System');
@@ -26,14 +26,14 @@ describe('datafile', function () {
 
     it('loadDataFileSync - try to load a non-existing file (throws exception)', function () {
         try {
-            (0, _index.loadDataFileSync)('src/fixtures/slrSystem.yml');
+            (0, _index.loadDataFileSync)('src/fixtures/merge/slrSystem.yml');
         } catch (err) {
             (0, _expect2.default)(err).toBeAn(Error);
         }
     });
 
     it('loadDataFileSync - try to load a non-existing file (throws no exception)', function () {
-        var data = (0, _index.loadDataFileSync)('src/fixtures/slrSystem.yml', false);
+        var data = (0, _index.loadDataFileSync)('src/fixtures/merge/slrSystem.yml', false);
         (0, _expect2.default)(data).toBeA('object');
         (0, _expect2.default)(data).toEqual({});
     });
@@ -53,7 +53,7 @@ describe('datafile', function () {
     });
 
     it('mergeDataFilesSync - load a single file', function () {
-        var data = (0, _index.mergeDataFilesSync)(['src/fixtures/solarSystem.yml']);
+        var data = (0, _index.mergeDataFilesSync)(['src/fixtures/merge/solarSystem.yml']);
         (0, _expect2.default)(data).toBeA('object');
         (0, _expect2.default)(data).toIncludeKeys(['name', 'format', 'comment', 'planets']);
         (0, _expect2.default)(data.name).toEqual('The Solar System');
@@ -61,12 +61,12 @@ describe('datafile', function () {
     });
 
     it('loadDataSync - merging several files', function () {
-        var filesToMerge = ['src/fixtures/solarSystem.yml', 'src/fixtures/moons.yml', 'src/fixtures/earth.yml', 'src/fixtures/mars.yml'];
+        var filesToMerge = ['src/fixtures/merge/solarSystem.yml', 'src/fixtures/merge/moons.yml', 'src/fixtures/merge/earth.yml', 'src/fixtures/merge/mars.yml'];
         (0, _expect2.default)((0, _index.loadData)(filesToMerge)).toEqual((0, _index.mergeDataFilesSync)(filesToMerge));
     });
 
     it('mergeDataFilesSync - merging several files', function () {
-        var data = (0, _index.mergeDataFilesSync)(['src/fixtures/solarSystem.yml', 'src/fixtures/moons.yml', 'src/fixtures/earth.yml', 'src/fixtures/mars.yml']);
+        var data = (0, _index.mergeDataFilesSync)(['src/fixtures/merge/solarSystem.yml', 'src/fixtures/merge/moons.yml', 'src/fixtures/merge/earth.yml', 'src/fixtures/merge/mars.yml']);
 
         var mars = {
             "earthMass": 0.11,
@@ -85,19 +85,19 @@ describe('datafile', function () {
     });
 
     it('listFilesSync - list files (recursive)', function () {
-        (0, _expect2.default)((0, _index.listFilesSync)('src/fixtures/')).toEqual(['src/fixtures/earth.yml', 'src/fixtures/mars.yml', 'src/fixtures/moons.yml', 'src/fixtures/solarSystem.yml', 'src/fixtures/tree/services/customers/customer/service.yml', 'src/fixtures/tree/services/customers/service.yml', 'src/fixtures/tree/services/defaults/noHeaders/service.yml', 'src/fixtures/tree/services/defaults/noTestCases/service.yml', 'src/fixtures/tree/services/monitoring/isAlive/service.yml']);
+        (0, _expect2.default)((0, _index.listFilesSync)('src/fixtures/')).toEqual(['src/fixtures/merge/earth.yml', 'src/fixtures/merge/mars.yml', 'src/fixtures/merge/moons.yml', 'src/fixtures/merge/solarSystem.yml', 'src/fixtures/tree/services/customers/customer/service.yml', 'src/fixtures/tree/services/customers/service.yml', 'src/fixtures/tree/services/defaults/noHeaders/service.yml', 'src/fixtures/tree/services/defaults/noTestCases/service.yml', 'src/fixtures/tree/services/monitoring/isAlive/service.yml']);
     });
 
     it('listFilesSync - list files (non-recursive)', function () {
-        (0, _expect2.default)((0, _index.listFilesSync)('src/fixtures/', false)).toEqual(['earth.yml', 'mars.yml', 'moons.yml', 'solarSystem.yml']);
+        (0, _expect2.default)((0, _index.listFilesSync)('src/fixtures/merge/', false)).toEqual(['earth.yml', 'mars.yml', 'moons.yml', 'solarSystem.yml']);
     });
 
     it('findFilesSync - find s*.yml files (non-recursive)', function () {
-        (0, _expect2.default)((0, _index.findFilesSync)('src/fixtures/', /^s.+\.yml$/, false)).toEqual(['solarSystem.yml']);
+        (0, _expect2.default)((0, _index.findFilesSync)('src/fixtures/merge/', /^s.+\.yml$/, false)).toEqual(['solarSystem.yml']);
     });
 
     it('findFilesSync - find s*.yml files and merge them by urlPattern|urlTemplate keys', function () {
-        var fileListToMerge = (0, _index.findFilesSync)('src/fixtures/', /^s.+\.yml$/);
+        var fileListToMerge = (0, _index.findFilesSync)('src/fixtures/tree/', /^s.+\.yml$/);
         var results = (0, _index.mergeDataFilesByKeySync)(fileListToMerge, 'uriTemplate', (0, _index.mergeDataFilesByKeySync)(fileListToMerge, 'urlPattern'));
         (0, _expect2.default)(_.keys(results)).toEqual(['/customers/{id}', '/customers', '/monitoring/isAlive', '/defaults/noHeaders', '/defaults/noTestCases']);
     });

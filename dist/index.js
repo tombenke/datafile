@@ -51,7 +51,7 @@ var loadDataFileSync = exports.loadDataFileSync = function loadDataFileSync(file
 
     if (fileName) {
         try {
-            content = _jsYaml2.default.safeLoad(_fs2.default.readFileSync(_path2.default.resolve(fileName)));
+            content = _jsYaml2.default.safeLoad(_fs2.default.readFileSync(_path2.default.resolve(fileName), { encoding: 'utf8' }));
         } catch (err) {
             if (raiseErrors) {
                 throw err;
