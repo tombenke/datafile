@@ -1,72 +1,153 @@
+import fs from 'fs'
+import rimraf from 'rimraf'
+import path from 'path'
 import expect from 'expect'
 import * as _ from 'lodash'
 import {
-    loadDataFileSync,
-    mergeDataFilesSync,
+    loadTextFileSync,
+    saveTextFileSync,
+    loadJsonFileSync,
+    mergeJsonFilesSync,
     listFilesSync,
     findFilesSync,
-    mergeDataFilesByKeySync,
-    loadData // alias mergeDataFilesSync, DEPRECATED
+    mergeJsonFilesByKeySync,
+    mergeJsonFilesByFileNameSync,
+    mergeTextFilesByFileNameSync,
+    loadData // alias mergeJsonFilesSync, DEPRECATED
 } from './index'
+
+const destCleanup = function(cb) {
+    const dest = path.resolve('./tmp/')
+    console.log('Remove: ', dest)
+    rimraf(dest, cb)
+}
+
+before(function(done) {
+    destCleanup(function() {
+        fs.mkdirSync(path.resolve('./tmp'))
+        done()
+    })
+})
+
+after(function(done) {
+    destCleanup(done)
+})
+
 
 describe('datafile', () => {
 
-    it('loadDataFileSync - load a single file', () => {
-        const data = loadDataFileSync('src/fixtures/merge/solarSystem.yml', false)
-        expect(data).toBeA('object')
-        expect(data).toIncludeKeys(['name', 'format', 'comment', 'planets'])
-        expect(data.name).toEqual('The Solar System')
-        expect(data.planets).toBeAn('object')
+    it('loadTextFileSync - load a text file', () => {
+        const content = loadTextFileSync('src/fixtures/merge/earth.yml', false)
+        expect(content).toBeA('string')
+        expect(content).toEqual('planets:\n    Earth:\n        moons:\n            Moon: {}\n')
     })
 
-    it('loadDataFileSync - try to load a non-existing file (throws exception)', () => {
+    it('loadTextFileSync - try to load a non-existing file (throws exception)', () => {
         try {
-            loadDataFileSync('src/fixtures/merge/slrSystem.yml')
+            loadTextFileSync('nonExistingFile.txt')
         } catch (err) {
             expect(err).toBeAn(Error)
         }
     })
 
-    it('loadDataFileSync - try to load a non-existing file (throws no exception)', () => {
-        const data = loadDataFileSync('src/fixtures/merge/slrSystem.yml', false)
+    it('loadTextFileSync - try to load a non-existing file (throws no exception)', () => {
+        const data = loadTextFileSync('nonExistingFile.txt', false)
         expect(data).toBeA('object')
-        expect(data).toEqual({})
+        expect(data).toEqual(null)
     })
 
-    it('loadDataFileSync - try to load with no name (throws exception)', () => {
+    it('saveTextFileSync - save text content into a file', () => {
+        const testFileName = 'tmp/testFileToSave.txt'
+        const contentToSave = "This is a simple text to save,\nand load back\n\n"
+
+        saveTextFileSync(testFileName, contentToSave, false)
+        expect(fs.readFileSync(testFileName)).toEqual(contentToSave)
+    })
+
+    it('saveTextFileSync - try to save a file into a non-existing dir (throws exception)', () => {
         try {
-            loadDataFileSync(null)
+            saveTextFileSync('tmp/nonExistingFileDir/file.txt', 'content')
         } catch (err) {
-            expect(err).toEqual('Error: File name is missing!')
+            expect(err).toBeAn(Error)
         }
     })
 
-    it('loadDataFileSync - try to load with no name (throws no exception)', () => {
-        const data = loadDataFileSync(null, false)
-        expect(data).toBeA('object')
-        expect(data).toEqual({})
+    it('saveTextFileSync - try to save a file into a non-existing dir (throws no exception)', () => {
+        saveTextFileSync('tmp/nonExistingFileDir/file.txt', 'content', false)
     })
 
-    it('mergeDataFilesSync - load a single file', () => {
-        const data = mergeDataFilesSync(['src/fixtures/merge/solarSystem.yml'])
+    it('loadJsonFileSync - load a single file', () => {
+        const data = loadJsonFileSync('src/fixtures/merge/solarSystem.yml', false)
         expect(data).toBeA('object')
         expect(data).toIncludeKeys(['name', 'format', 'comment', 'planets'])
         expect(data.name).toEqual('The Solar System')
         expect(data.planets).toBeAn('object')
     })
 
-    it('loadDataSync - merging several files', () => {
-        const filesToMerge = [
-            'src/fixtures/merge/solarSystem.yml',
-            'src/fixtures/merge/moons.yml',
-            'src/fixtures/merge/earth.yml',
-            'src/fixtures/merge/mars.yml'
-        ]
-        expect(loadData(filesToMerge)).toEqual(mergeDataFilesSync(filesToMerge))
+    it('loadJsonFileSync - try to load a non-existing file (throws exception)', () => {
+        try {
+            loadJsonFileSync('nonExistingFile.yml')
+        } catch (err) {
+            expect(err).toBeAn(Error)
+        }
     })
 
-    it('mergeDataFilesSync - merging several files', () => {
-        const data = mergeDataFilesSync([
+    it('loadJsonFileSync - try to load a non-existing file (throws no exception)', () => {
+        const data = loadJsonFileSync('nonExistingFile.yml', false)
+        expect(data).toBeA('object')
+        expect(data).toEqual({})
+    })
+
+    it('loadJsonFileSync - try to load with no name (throws exception)', () => {
+        try {
+            loadJsonFileSync(null)
+        } catch (err) {
+            expect(err).toEqual('Error: File name is missing!')
+        }
+    })
+
+    it('loadJsonFileSync - try to load with no name (throws no exception)', () => {
+        const data = loadJsonFileSync(null, false)
+        expect(data).toBeA('object')
+        expect(data).toEqual({})
+    })
+
+    it('listFilesSync - list files (recursive)', () => {
+        expect(listFilesSync('src/fixtures/')).toEqual([
+            'src/fixtures/merge/earth.yml',
+            'src/fixtures/merge/mars.yml',
+            'src/fixtures/merge/moons.yml',
+            'src/fixtures/merge/solarSystem.yml',
+            "src/fixtures/templates/copyright.html",
+            "src/fixtures/templates/footer.html",
+            "src/fixtures/templates/header.html",
+            "src/fixtures/templates/main.html",
+            'src/fixtures/tree/services/customers/customer/service.yml',
+            'src/fixtures/tree/services/customers/service.yml',
+            'src/fixtures/tree/services/defaults/noHeaders/service.yml',
+            'src/fixtures/tree/services/defaults/noTestCases/service.yml',
+            'src/fixtures/tree/services/monitoring/isAlive/service.yml'
+        ])
+    })
+
+    it('listFilesSync - list files (non-recursive)', () => {
+        expect(listFilesSync('src/fixtures/merge/', false)).toEqual([ 'earth.yml', 'mars.yml', 'moons.yml', 'solarSystem.yml' ])
+    })
+
+    it('findFilesSync - find s*.yml files (non-recursive)', () => {
+        expect(findFilesSync('src/fixtures/merge/', /^s.+\.yml$/, false)).toEqual([ 'solarSystem.yml' ])
+    })
+
+    it('mergeJsonFilesSync - load a single file', () => {
+        const data = mergeJsonFilesSync(['src/fixtures/merge/solarSystem.yml'])
+        expect(data).toBeA('object')
+        expect(data).toIncludeKeys(['name', 'format', 'comment', 'planets'])
+        expect(data.name).toEqual('The Solar System')
+        expect(data.planets).toBeAn('object')
+    })
+
+    it('mergeJsonFilesSync - merging several files', () => {
+        const data = mergeJsonFilesSync([
                 'src/fixtures/merge/solarSystem.yml',
                 'src/fixtures/merge/moons.yml',
                 'src/fixtures/merge/earth.yml',
@@ -91,31 +172,44 @@ describe('datafile', () => {
         expect(data.planets.Mars).toEqual(mars)
     })
 
-    it('listFilesSync - list files (recursive)', () => {
-        expect(listFilesSync('src/fixtures/')).toEqual([
-            'src/fixtures/merge/earth.yml',
-            'src/fixtures/merge/mars.yml',
-            'src/fixtures/merge/moons.yml',
+    it('loadData - merging several files', () => {
+        const filesToMerge = [
             'src/fixtures/merge/solarSystem.yml',
-            'src/fixtures/tree/services/customers/customer/service.yml',
-            'src/fixtures/tree/services/customers/service.yml',
-            'src/fixtures/tree/services/defaults/noHeaders/service.yml',
-            'src/fixtures/tree/services/defaults/noTestCases/service.yml',
-            'src/fixtures/tree/services/monitoring/isAlive/service.yml'
-        ])
+            'src/fixtures/merge/moons.yml',
+            'src/fixtures/merge/earth.yml',
+            'src/fixtures/merge/mars.yml'
+        ]
+        expect(loadData(filesToMerge)).toEqual(mergeJsonFilesSync(filesToMerge))
     })
 
-    it('listFilesSync - list files (non-recursive)', () => {
-        expect(listFilesSync('src/fixtures/merge/', false)).toEqual([ 'earth.yml', 'mars.yml', 'moons.yml', 'solarSystem.yml' ])
-    })
-
-    it('findFilesSync - find s*.yml files (non-recursive)', () => {
-        expect(findFilesSync('src/fixtures/merge/', /^s.+\.yml$/, false)).toEqual([ 'solarSystem.yml' ])
-    })
-
-    it('findFilesSync - find s*.yml files and merge them by urlPattern|urlTemplate keys', () => {
+    it('mergeJsonFilesByKeySync - find s*.yml files and merge them by urlPattern|urlTemplate keys', () => {
         const fileListToMerge = findFilesSync('src/fixtures/tree/', /^s.+\.yml$/)
-        const results = mergeDataFilesByKeySync(fileListToMerge, 'uriTemplate', mergeDataFilesByKeySync(fileListToMerge, 'urlPattern'))
+        const results = mergeJsonFilesByKeySync(fileListToMerge, 'uriTemplate', mergeJsonFilesByKeySync(fileListToMerge, 'urlPattern'))
         expect(_.keys(results)).toEqual([ '/customers/{id}', '/customers', '/monitoring/isAlive', '/defaults/noHeaders', '/defaults/noTestCases' ])
+    })
+
+    it('mergeJsonFilesByFileNameSync - find s*.yml files and merge them by the names of the files', () => {
+        const fileListToMerge = findFilesSync('src/fixtures/tree/', /^s.+\.yml$/)
+        const results = mergeJsonFilesByFileNameSync(fileListToMerge, {})
+        expect(_.keys(results)).toEqual([
+            "src/fixtures/tree/services/customers/customer/service.yml",
+            "src/fixtures/tree/services/customers/service.yml",
+            "src/fixtures/tree/services/defaults/noHeaders/service.yml",
+            "src/fixtures/tree/services/defaults/noTestCases/service.yml",
+            "src/fixtures/tree/services/monitoring/isAlive/service.yml"
+        ])
+        _.map(results, (dataItem, key) => expect(dataItem).toBeAn('object').toEqual(loadJsonFileSync(key)))
+    })
+
+    it('mergeTextFilesByFileNameSync - find and read files as plain text and merge them by their names', () => {
+        const fileListToMerge = findFilesSync('src/fixtures/templates/', /.*\.html$/)
+        const results = mergeTextFilesByFileNameSync(fileListToMerge, {})
+        expect(_.keys(results)).toEqual([
+            "src/fixtures/templates/copyright.html",
+            "src/fixtures/templates/footer.html",
+            "src/fixtures/templates/header.html",
+            "src/fixtures/templates/main.html"
+        ])
+        _.map(results, (dataItem, key) => expect(dataItem).toBeAn('string').toEqual(loadTextFileSync(key)))
     })
 })

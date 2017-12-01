@@ -579,7 +579,7 @@ Skips directory names from the result list. Only files will be listed.</p>
     
 
     
-    <h4 class="name" id=".loadDataFileSync"><span class="type-signature">(static) </span>loadDataFileSync<span class="signature">(fileName, exitOnError)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".loadJsonFileSync"><span class="type-signature">(static) </span>loadJsonFileSync<span class="signature">(fileName, raiseErrors)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -647,7 +647,7 @@ Skips directory names from the result list. Only files will be listed.</p>
 
         <tr>
             
-                <td class="name"><code>exitOnError</code></td>
+                <td class="name"><code>raiseErrors</code></td>
             
 
             <td class="type">
@@ -757,7 +757,184 @@ Skips directory names from the result list. Only files will be listed.</p>
     
 
     
-    <h4 class="name" id=".mergeDataFilesByKeySync"><span class="type-signature">(static) </span>mergeDataFilesByKeySync<span class="signature">(listOfDataFiles, keyProp)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".loadTextFileSync"><span class="type-signature">(static) </span>loadTextFileSync<span class="signature">(fileName, raiseErrors)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Load text content from a file</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fileName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The full path of the input file</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>raiseErrors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: <code>true</code>.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>The loaded content</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".mergeJsonFilesByKeySync"><span class="type-signature">(static) </span>mergeJsonFilesByKeySync<span class="signature">(listOfJsonFiles, keyProp)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -773,7 +950,7 @@ initial object in the order they were listed in the array.</p>
 object to merge. The <code>keyProp</code> parameter identifies the property in this object to merge that value
 that will be used as a property name in the new object. This value should be unique among the objects
 to merge.</p>
-<p>For example the each file to merge contains a document of a bigger collection, and has an <code>id</code> field,
+<p>For example each file to merge contains a document of a bigger collection, and has an <code>id</code> field,
 which holds an <code>uuid</code> unique ID value of the document. The <code>keyProp</code> should be <code>&quot;id&quot;</code>, and the result
 of merging will be an object, which has as many properties as the number of merged files,
 and each property holds the complete loaded object, and the name of the property is the <code>uuid</code> value.</p>
@@ -812,7 +989,7 @@ and each property holds the complete loaded object, and the name of the property
 
         <tr>
             
-                <td class="name"><code>listOfDataFiles</code></td>
+                <td class="name"><code>listOfJsonFiles</code></td>
             
 
             <td class="type">
@@ -945,7 +1122,7 @@ and each property holds the complete loaded object, and the name of the property
     
 
     
-    <h4 class="name" id=".mergeDataFilesSync"><span class="type-signature">(static) </span>mergeDataFilesSync<span class="signature">(listOfDataFiles)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".mergeJsonFilesSync"><span class="type-signature">(static) </span>mergeJsonFilesSync<span class="signature">(listOfJsonFiles)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -992,7 +1169,7 @@ initial object in order of listing in the array.</p>
 
         <tr>
             
-                <td class="name"><code>listOfDataFiles</code></td>
+                <td class="name"><code>listOfJsonFiles</code></td>
             
 
             <td class="type">
@@ -1102,7 +1279,183 @@ initial object in order of listing in the array.</p>
     
 
     
-    <h4 class="name" id="~mergeDataFileByKeySync"><span class="type-signature">(inner) </span>mergeDataFileByKeySync<span class="signature">(keyProp)</span><span class="type-signature"> &rarr; {function}</span></h4>
+    <h4 class="name" id=".saveTextFileSync"><span class="type-signature">(static) </span>saveTextFileSync<span class="signature">(fileName, content, raiseErrors)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Save content into a text file</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fileName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The full path of the output file</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>content</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The content to save</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>raiseErrors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: <code>true</code>.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~mergeJsonFileByKeySync"><span class="type-signature">(inner) </span>mergeJsonFileByKeySync<span class="signature">(keyProp)</span><span class="type-signature"> &rarr; {function}</span></h4>
     
 
     
@@ -1259,7 +1612,7 @@ to merge, and the <code>acc</code> the accumulator object, to merge the data int
     
 
     
-    <h4 class="name" id="~mergeDataFileSync"><span class="type-signature">(inner) </span>mergeDataFileSync<span class="signature">(acc, dataFileName)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="~mergeJsonFileSync"><span class="type-signature">(inner) </span>mergeJsonFileSync<span class="signature">(acc, dataFileName)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     

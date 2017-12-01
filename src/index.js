@@ -11,17 +11,59 @@ import yaml from 'js-yaml'
  */
 
 /**
+ * Load text content from a file
+ *
+ * @arg {String} fileName - The full path of the input file
+ * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
+ *
+ * @return {String} - The loaded content
+ * @function
+ */
+export const loadTextFileSync = function(fileName, raiseErrors=true) {
+	let content = null
+
+    try {
+        content = fs.readFileSync(path.resolve(fileName), { encoding: 'utf8' })
+    } catch (err) {
+        if (raiseErrors) {
+            throw(err)
+        }
+    }
+    return content
+}
+
+/**
+ * Save content into a text file
+ *
+ * @arg {String} fileName - The full path of the output file
+ * @arg {String} content - The content to save
+ * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
+ *
+ * @function
+ */
+export const saveTextFileSync = function(fileName, content, raiseErrors=true) {
+
+    try {
+        fs.writeFileSync(path.resolve(fileName), content, { encoding: 'utf8' })
+    } catch (err) {
+        if (raiseErrors) {
+            throw(err)
+        }
+    }
+}
+
+/**
  * Load JSON/YAML datafile
  *
  * The data file can be either a JSON or a YAML format file.
  *
  * @arg {String} fileName     - The full path of the file to load.
- * @arg {Boolean} exitOnError - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
+ * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
  *
  * @return {Object} - The data loaded as a JSON object.
  * @function
  */
-export const loadDataFileSync = function(fileName, raiseErrors=true) {
+export const loadJsonFileSync = function(fileName, raiseErrors=true) {
 	let content = {}
 
     if (fileName) {
@@ -53,7 +95,7 @@ export const loadDataFileSync = function(fileName, raiseErrors=true) {
  *
  * @return {Object} - The result object of merging
  */
-const mergeDataFileSync = (acc, dataFileName) => _.merge({}, acc, loadDataFileSync(dataFileName))
+const mergeJsonFileSync = (acc, dataFileName) => _.merge({}, acc, loadJsonFileSync(dataFileName))
 
 /**
  * Load the listed data files and merge them into a single object.
@@ -62,12 +104,12 @@ const mergeDataFileSync = (acc, dataFileName) => _.merge({}, acc, loadDataFileSy
  * The merging begins with an empty object, and the objects loaded from the data files extend this
  * initial object in order of listing in the array.
  *
- * @arg {Array} listOfDataFiles - The list of paths to the data files to be loaded
+ * @arg {Array} listOfJsonFiles - The list of paths to the data files to be loaded
  *
  * @return {Object} - The resulted data object
  * @function
  */
-export const mergeDataFilesSync = listOfDataFiles => _.reduce(listOfDataFiles, mergeDataFileSync, {})
+export const mergeJsonFilesSync = listOfJsonFiles => _.reduce(listOfJsonFiles, mergeJsonFileSync, {})
 
 /**
  * Load the listed data files and merge them into a single object.
@@ -77,7 +119,7 @@ export const mergeDataFilesSync = listOfDataFiles => _.reduce(listOfDataFiles, m
  * @deprecated
  * @function
  */
-export const loadData = listOfDataFiles => mergeDataFilesSync(listOfDataFiles)
+export const loadData = listOfJsonFiles => mergeJsonFilesSync(listOfJsonFiles)
 
 /**
  * List files of a directory recursively or top level only
@@ -130,8 +172,8 @@ export const findFilesSync = (baseDir, pattern, recurse=true) => _.filter(listFi
  *
  * @function
  */
-const mergeDataFileByKeySync = keyProp => (acc, dataFileName) => {
-    const data = loadDataFileSync(dataFileName)
+const mergeJsonFileByKeySync = keyProp => (acc, dataFileName) => {
+    const data = loadJsonFileSync(dataFileName)
     if (_.has(data, keyProp)) {
         const key = data[keyProp]
         return _.merge({}, acc, { [key]: data })
@@ -153,16 +195,32 @@ const mergeDataFileByKeySync = keyProp => (acc, dataFileName) => {
  * that will be used as a property name in the new object. This value should be unique among the objects
  * to merge.
  *
- * For example the each file to merge contains a document of a bigger collection, and has an `id` field,
+ * For example each file to merge contains a document of a bigger collection, and has an `id` field,
  * which holds an `uuid` unique ID value of the document. The `keyProp` should be `"id"`, and the result
  * of merging will be an object, which has as many properties as the number of merged files,
  * and each property holds the complete loaded object, and the name of the property is the `uuid` value.
  *
- * @arg {Array} listOfDataFiles - The list of paths to the data files to be loaded
+ * @arg {Array} listOfJsonFiles - The list of paths to the data files to be loaded
  * @arg {String} keyProp        - The name of the property that's value is used as a key
  *
  * @return {Object} - The resulted data object
  * @function
  */
-export const mergeDataFilesByKeySync = (listOfDataFiles, keyProp, acc={}) =>
-    _.reduce(listOfDataFiles, mergeDataFileByKeySync(keyProp), acc)
+export const mergeJsonFilesByKeySync = (listOfJsonFiles, keyProp, acc={}) =>
+    _.reduce(listOfJsonFiles, mergeJsonFileByKeySync(keyProp), acc)
+
+const mergeJsonFileByFileNameSync = (acc, dataFileName) => {
+    acc[dataFileName] = loadJsonFileSync(dataFileName)
+    return acc
+}
+
+export const mergeJsonFilesByFileNameSync = (listOfJsonFiles, acc={}) =>
+    _.reduce(listOfJsonFiles, mergeJsonFileByFileNameSync, acc)
+
+const mergeTextFileByFileNameSync = (acc, dataFileName) => {
+    acc[dataFileName] = loadTextFileSync(dataFileName)
+    return acc
+}
+
+export const mergeTextFilesByFileNameSync = (listOfTextFiles, acc={}) =>
+    _.reduce(listOfTextFiles, mergeTextFileByFileNameSync, acc)

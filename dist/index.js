@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.mergeDataFilesByKeySync = exports.findFilesSync = exports.listFilesSync = exports.loadData = exports.mergeDataFilesSync = exports.loadDataFileSync = undefined;
+exports.mergeTextFilesByFileNameSync = exports.mergeJsonFilesByFileNameSync = exports.mergeJsonFilesByKeySync = exports.findFilesSync = exports.listFilesSync = exports.loadData = exports.mergeJsonFilesSync = exports.loadJsonFileSync = exports.saveTextFileSync = exports.loadTextFileSync = undefined;
 
 var _lodash = require('lodash');
 
@@ -34,17 +34,63 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  */
 
 /**
+ * Load text content from a file
+ *
+ * @arg {String} fileName - The full path of the input file
+ * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
+ *
+ * @return {String} - The loaded content
+ * @function
+ */
+var loadTextFileSync = exports.loadTextFileSync = function loadTextFileSync(fileName) {
+    var raiseErrors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+    var content = null;
+
+    try {
+        content = _fs2.default.readFileSync(_path2.default.resolve(fileName), { encoding: 'utf8' });
+    } catch (err) {
+        if (raiseErrors) {
+            throw err;
+        }
+    }
+    return content;
+};
+
+/**
+ * Save content into a text file
+ *
+ * @arg {String} fileName - The full path of the output file
+ * @arg {String} content - The content to save
+ * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
+ *
+ * @function
+ */
+var saveTextFileSync = exports.saveTextFileSync = function saveTextFileSync(fileName, content) {
+    var raiseErrors = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+
+    try {
+        _fs2.default.writeFileSync(_path2.default.resolve(fileName), content, { encoding: 'utf8' });
+    } catch (err) {
+        if (raiseErrors) {
+            throw err;
+        }
+    }
+};
+
+/**
  * Load JSON/YAML datafile
  *
  * The data file can be either a JSON or a YAML format file.
  *
  * @arg {String} fileName     - The full path of the file to load.
- * @arg {Boolean} exitOnError - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
+ * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
  *
  * @return {Object} - The data loaded as a JSON object.
  * @function
  */
-var loadDataFileSync = exports.loadDataFileSync = function loadDataFileSync(fileName) {
+var loadJsonFileSync = exports.loadJsonFileSync = function loadJsonFileSync(fileName) {
     var raiseErrors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
     var content = {};
@@ -78,8 +124,8 @@ var loadDataFileSync = exports.loadDataFileSync = function loadDataFileSync(file
  *
  * @return {Object} - The result object of merging
  */
-var mergeDataFileSync = function mergeDataFileSync(acc, dataFileName) {
-    return _.merge({}, acc, loadDataFileSync(dataFileName));
+var mergeJsonFileSync = function mergeJsonFileSync(acc, dataFileName) {
+    return _.merge({}, acc, loadJsonFileSync(dataFileName));
 };
 
 /**
@@ -89,13 +135,13 @@ var mergeDataFileSync = function mergeDataFileSync(acc, dataFileName) {
  * The merging begins with an empty object, and the objects loaded from the data files extend this
  * initial object in order of listing in the array.
  *
- * @arg {Array} listOfDataFiles - The list of paths to the data files to be loaded
+ * @arg {Array} listOfJsonFiles - The list of paths to the data files to be loaded
  *
  * @return {Object} - The resulted data object
  * @function
  */
-var mergeDataFilesSync = exports.mergeDataFilesSync = function mergeDataFilesSync(listOfDataFiles) {
-    return _.reduce(listOfDataFiles, mergeDataFileSync, {});
+var mergeJsonFilesSync = exports.mergeJsonFilesSync = function mergeJsonFilesSync(listOfJsonFiles) {
+    return _.reduce(listOfJsonFiles, mergeJsonFileSync, {});
 };
 
 /**
@@ -106,8 +152,8 @@ var mergeDataFilesSync = exports.mergeDataFilesSync = function mergeDataFilesSyn
  * @deprecated
  * @function
  */
-var loadData = exports.loadData = function loadData(listOfDataFiles) {
-    return mergeDataFilesSync(listOfDataFiles);
+var loadData = exports.loadData = function loadData(listOfJsonFiles) {
+    return mergeJsonFilesSync(listOfJsonFiles);
 };
 
 /**
@@ -165,9 +211,9 @@ var findFilesSync = exports.findFilesSync = function findFilesSync(baseDir, patt
  *
  * @function
  */
-var mergeDataFileByKeySync = function mergeDataFileByKeySync(keyProp) {
+var mergeJsonFileByKeySync = function mergeJsonFileByKeySync(keyProp) {
     return function (acc, dataFileName) {
-        var data = loadDataFileSync(dataFileName);
+        var data = loadJsonFileSync(dataFileName);
         if (_.has(data, keyProp)) {
             var key = data[keyProp];
             return _.merge({}, acc, _defineProperty({}, key, data));
@@ -190,18 +236,38 @@ var mergeDataFileByKeySync = function mergeDataFileByKeySync(keyProp) {
  * that will be used as a property name in the new object. This value should be unique among the objects
  * to merge.
  *
- * For example the each file to merge contains a document of a bigger collection, and has an `id` field,
+ * For example each file to merge contains a document of a bigger collection, and has an `id` field,
  * which holds an `uuid` unique ID value of the document. The `keyProp` should be `"id"`, and the result
  * of merging will be an object, which has as many properties as the number of merged files,
  * and each property holds the complete loaded object, and the name of the property is the `uuid` value.
  *
- * @arg {Array} listOfDataFiles - The list of paths to the data files to be loaded
+ * @arg {Array} listOfJsonFiles - The list of paths to the data files to be loaded
  * @arg {String} keyProp        - The name of the property that's value is used as a key
  *
  * @return {Object} - The resulted data object
  * @function
  */
-var mergeDataFilesByKeySync = exports.mergeDataFilesByKeySync = function mergeDataFilesByKeySync(listOfDataFiles, keyProp) {
+var mergeJsonFilesByKeySync = exports.mergeJsonFilesByKeySync = function mergeJsonFilesByKeySync(listOfJsonFiles, keyProp) {
     var acc = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-    return _.reduce(listOfDataFiles, mergeDataFileByKeySync(keyProp), acc);
+    return _.reduce(listOfJsonFiles, mergeJsonFileByKeySync(keyProp), acc);
+};
+
+var mergeJsonFileByFileNameSync = function mergeJsonFileByFileNameSync(acc, dataFileName) {
+    acc[dataFileName] = loadJsonFileSync(dataFileName);
+    return acc;
+};
+
+var mergeJsonFilesByFileNameSync = exports.mergeJsonFilesByFileNameSync = function mergeJsonFilesByFileNameSync(listOfJsonFiles) {
+    var acc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    return _.reduce(listOfJsonFiles, mergeJsonFileByFileNameSync, acc);
+};
+
+var mergeTextFileByFileNameSync = function mergeTextFileByFileNameSync(acc, dataFileName) {
+    acc[dataFileName] = loadTextFileSync(dataFileName);
+    return acc;
+};
+
+var mergeTextFilesByFileNameSync = exports.mergeTextFilesByFileNameSync = function mergeTextFilesByFileNameSync(listOfTextFiles) {
+    var acc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    return _.reduce(listOfTextFiles, mergeTextFileByFileNameSync, acc);
 };
