@@ -1,7 +1,7 @@
 {
   "name": "datafile",
   "description": "Generic utility functions for loading data files",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "tags": [
     "json",
     "yaml",
