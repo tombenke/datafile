@@ -6,7 +6,10 @@ datafile
 [![Build Status][travis-badge]][travis-url]
 [![Coveralls][BadgeCoveralls]][Coveralls]
 
-Generic utility functions for loading data files
+Generic utility functions for loading and merging data files.
+
+Read the [API documentation](https://tombenke.github.io/datafile/index.html)
+for further details on how to use this library.
 
 ## Installation
 
