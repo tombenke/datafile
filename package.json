@@ -23,6 +23,7 @@
   "main": "dist/index.js",
   "dependencies": {
     "jayschema": "^0.3.2",
+    "js-yaml": "^3.10.0",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
