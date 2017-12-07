@@ -3,6 +3,7 @@ import * as _ from 'lodash'
 import fs from 'fs'
 import path from 'path'
 import yaml from 'js-yaml'
+import * as schemas from './schemas/'
 
 /**
  * Data file handler functions.
@@ -290,3 +291,6 @@ const mergeTextFileByFileNameSync = (acc, textFileName) => {
  */
 export const mergeTextFilesByFileNameSync = (listOfTextFiles, acc={}) =>
     _.reduce(listOfTextFiles, mergeTextFileByFileNameSync, acc)
+
+export const loadSchema = schemas.loadSchema
+export const validate = schemas.validate

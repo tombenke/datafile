@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.mergeTextFilesByFileNameSync = exports.mergeJsonFilesByFileNameSync = exports.mergeJsonFilesByKeySync = exports.findFilesSync = exports.listFilesSync = exports.loadData = exports.mergeJsonFilesSync = exports.loadJsonFileSync = exports.saveTextFileSync = exports.loadTextFileSync = undefined;
+exports.validate = exports.loadSchema = exports.mergeTextFilesByFileNameSync = exports.mergeJsonFilesByFileNameSync = exports.mergeJsonFilesByKeySync = exports.findFilesSync = exports.listFilesSync = exports.loadData = exports.mergeJsonFilesSync = exports.loadJsonFileSync = exports.saveTextFileSync = exports.loadTextFileSync = undefined;
 
 var _lodash = require('lodash');
 
@@ -20,6 +20,10 @@ var _path2 = _interopRequireDefault(_path);
 var _jsYaml = require('js-yaml');
 
 var _jsYaml2 = _interopRequireDefault(_jsYaml);
+
+var _schemas = require('./schemas/');
+
+var schemas = _interopRequireWildcard(_schemas);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -337,3 +341,6 @@ var mergeTextFilesByFileNameSync = exports.mergeTextFilesByFileNameSync = functi
     var acc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     return _.reduce(listOfTextFiles, mergeTextFileByFileNameSync, acc);
 };
+
+var loadSchema = exports.loadSchema = schemas.loadSchema;
+var validate = exports.validate = schemas.validate;
