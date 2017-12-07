@@ -17,6 +17,7 @@ import yaml from 'js-yaml'
  * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
  *
  * @return {String} - The loaded content
+ *
  * @function
  */
 export const loadTextFileSync = function(fileName, raiseErrors=true) {
@@ -61,6 +62,7 @@ export const saveTextFileSync = function(fileName, content, raiseErrors=true) {
  * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
  *
  * @return {Object} - The data loaded as a JSON object.
+ *
  * @function
  */
 export const loadJsonFileSync = function(fileName, raiseErrors=true) {
@@ -94,6 +96,8 @@ export const loadJsonFileSync = function(fileName, raiseErrors=true) {
  * @arg {String} dataFileName - The name of the data file to be loaded
  *
  * @return {Object} - The result object of merging
+ *
+ * @function
  */
 const mergeJsonFileSync = (acc, dataFileName) => _.merge({}, acc, loadJsonFileSync(dataFileName))
 
@@ -107,6 +111,7 @@ const mergeJsonFileSync = (acc, dataFileName) => _.merge({}, acc, loadJsonFileSy
  * @arg {Array} listOfJsonFiles - The list of paths to the data files to be loaded
  *
  * @return {Object} - The resulted data object
+ *
  * @function
  */
 export const mergeJsonFilesSync = listOfJsonFiles => _.reduce(listOfJsonFiles, mergeJsonFileSync, {})
@@ -117,6 +122,7 @@ export const mergeJsonFilesSync = listOfJsonFiles => _.reduce(listOfJsonFiles, m
  * It is an alias of the mergeFiles function.
  *
  * @deprecated
+ *
  * @function
  */
 export const loadData = listOfJsonFiles => mergeJsonFilesSync(listOfJsonFiles)
@@ -204,23 +210,83 @@ const mergeJsonFileByKeySync = keyProp => (acc, dataFileName) => {
  * @arg {String} keyProp        - The name of the property that's value is used as a key
  *
  * @return {Object} - The resulted data object
+ *
  * @function
  */
 export const mergeJsonFilesByKeySync = (listOfJsonFiles, keyProp, acc={}) =>
     _.reduce(listOfJsonFiles, mergeJsonFileByKeySync(keyProp), acc)
 
+/**
+ * Load and add one JSON data file into an accumulator object, as a property named as the filename.
+ *
+ * The original `acc` accumulator object will not be modified, but a new copy will be returned,
+ * which is extended with the new property that holds the loaded text.
+ *
+ * @arg {Object} acc          - The accumulator object to merge with.
+ * @arg {String} textFileName - The name of the text file to load.
+ *
+ * @return {Object} - The new accumulator object, including the loaded text.
+ *
+ * @function
+ */
 const mergeJsonFileByFileNameSync = (acc, dataFileName) => {
     acc[dataFileName] = loadJsonFileSync(dataFileName)
     return acc
 }
 
+/**
+ * Load objects from files and merge them into one object using the file names as property names.
+ *
+ * Loads each data files, and merges them into one object.
+ *
+ * The merging begins with a copy of the `acc` accumulator object,
+ * and the objects loaded from the data files extend this
+ * initial object in the order they were listed in the array.
+ *
+ * The original `acc` accumulator object will not be modified, but a new copy will be returned,
+ * which is extended with the new property that holds the loaded text.
+ *
+ * Each object is added to the result as a property. The name of the property will be the name of the
+ * data file to be merged.
+ *
+ * @arg {Array} listOfJsonFiles - The list of paths to the data files to be loaded
+ * @arg {String} acc            - The initial accumulator object to merge with
+ *
+ * @return {Object} - The resulted data object
+ *
+ * @function
+ */
 export const mergeJsonFilesByFileNameSync = (listOfJsonFiles, acc={}) =>
     _.reduce(listOfJsonFiles, mergeJsonFileByFileNameSync, acc)
 
-const mergeTextFileByFileNameSync = (acc, dataFileName) => {
-    acc[dataFileName] = loadTextFileSync(dataFileName)
+/**
+ * Load and add one text file into an accumulator object, as a property named as the filename.
+ *
+ * The original `acc` accumulator object will not be modified, but a new copy will be returned,
+ * which is extended with the new property that holds the loaded text.
+ *
+ * @arg {Object} acc - The accumulator object to merge with.
+ * @arg {String} textFileName - The name of the text file to load.
+ *
+ * @return {Object} - The new accumulator object, including the loaded text.
+ *
+ * @function
+ */
+const mergeTextFileByFileNameSync = (acc, textFileName) => {
+    acc[textFileName] = loadTextFileSync(textFileName)
     return acc
 }
 
+/**
+ * Load plain textual content from files, and build up an object which holds the accumulated contents
+ * as properties of the object, using the filename as the property name.
+ *
+ * @arg {Array} listOfTextFiles - The list of paths to the data files to be loaded
+ * @arg {Object} acc            - The initial content of the accumulator object. Default: `{}`.
+ *
+ * @return {Object} - The resulted data object
+ *
+ * @function
+ */
 export const mergeTextFilesByFileNameSync = (listOfTextFiles, acc={}) =>
     _.reduce(listOfTextFiles, mergeTextFileByFileNameSync, acc)
