@@ -12,6 +12,7 @@
     },
     "plugins": ["plugins/markdown"],
     "templates": {
+        "cleverLinks": true,
         "default": {
             "outputSourceFiles": false,
             "includeDate": false

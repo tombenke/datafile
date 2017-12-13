@@ -137,7 +137,7 @@
     
 
     
-    <h4 class="name" id=".findFilesSync"><span class="type-signature">(static) </span>findFilesSync<span class="signature">(baseDir, pattern)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id=".findFilesSync"><span class="type-signature">(static) </span>findFilesSync<span class="signature">(baseDir, pattern, recurse, splitBaseDir)</span><span class="type-signature"> &rarr; {Array}</span></h4>
     
 
     
@@ -222,6 +222,53 @@
             
 
             <td class="description last"><p>The regular expression pattern to match the filenames.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>recurse</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Find files in subdirectories as well if <code>true</code>. Default: <code>true</code>.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>splitBaseDir</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Booleand</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>If <code>true</code>, removes the <code>baseDir</code> from the paths of the files found,
+if <code>false</code> then returns with the full path. Default: 'false'.</p></td>
         </tr>
 
     
@@ -504,7 +551,7 @@ Skips directory names from the result list. Only files will be listed.</p>
 
 <div class="description">
     <p>Load the listed data files and merge them into a single object.</p>
-<p>It is an alias of the mergeFiles function.</p>
+<p>It is an alias of the <strong><code>mergeJsonFilesSync</code></strong> function.</p>
 </div>
 
 
@@ -551,6 +598,13 @@ Skips directory names from the result list. Only files will be listed.</p>
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><code>mergeJsonFilesSync</code></li>
+        </ul>
+    </dd>
     
 
     
@@ -727,7 +781,7 @@ Skips directory names from the result list. Only files will be listed.</p>
         
 <div class="param-desc">
     <ul>
-<li>The data loaded as a JSON object.</li>
+<li>The data loaded as a JSON object. If the file does not exists and <code>raiseErrors</code> is <code>false</code>, then returns with an empty object: <code>{}</code>.</li>
 </ul>
 </div>
 
@@ -904,7 +958,7 @@ Skips directory names from the result list. Only files will be listed.</p>
         
 <div class="param-desc">
     <ul>
-<li>The loaded content</li>
+<li>The loaded content. If the file does not exists and <code>raiseErrors</code> is <code>false</code>, then returns with <code>null</code>.</li>
 </ul>
 </div>
 
@@ -1455,6 +1509,32 @@ initial object in order of listing in the array.</p>
     
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// earth.yml:
+ planets:
+     Earth:
+         moons:
+             Moon: {}
+
+ // moons.yml:
+ planets:
+     Earth:
+         numOfMoons: 1
+
+ mergeJsonFilesSync([
+     'src/fixtures/merge/earth.yml',
+     'src/fixtures/merge/moons.yml'
+ ]
+
+ // =>
+ planets:
+     Earth:
+         numOfMoons: 1
+         moons:
+             Moon: {}</code></pre>
 
 
 

@@ -109,7 +109,7 @@ describe('datafile', function () {
 
     it('loadJsonFileSync - try to load with no name (throws exception)', function () {
         try {
-            (0, _index.loadJsonFileSync)(null);
+            (0, _index.loadJsonFileSync)(null, true);
         } catch (err) {
             (0, _expect2.default)(err).toEqual('Error: File name is missing!');
         }
@@ -131,6 +131,10 @@ describe('datafile', function () {
 
     it('findFilesSync - find s*.yml files (non-recursive)', function () {
         (0, _expect2.default)((0, _index.findFilesSync)('src/fixtures/merge/', /^s.+\.yml$/, false)).toEqual(['solarSystem.yml']);
+    });
+
+    it('findFilesSync - find s*.yml files (recursive + splitBaseDir)', function () {
+        (0, _expect2.default)((0, _index.findFilesSync)('src/fixtures/merge/', /^s.+\.yml$/, true, true)).toEqual(['solarSystem.yml']);
     });
 
     it('mergeJsonFilesSync - load a single file', function () {

@@ -43,7 +43,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * @arg {String} fileName - The full path of the input file
  * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
  *
- * @return {String} - The loaded content
+ * @return {String} - The loaded content. If the file does not exists and `raiseErrors` is `false`, then returns with `null`.
  *
  * @function
  */
@@ -92,7 +92,7 @@ var saveTextFileSync = exports.saveTextFileSync = function saveTextFileSync(file
  * @arg {String} fileName     - The full path of the file to load.
  * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
  *
- * @return {Object} - The data loaded as a JSON object.
+ * @return {Object} - The data loaded as a JSON object. If the file does not exists and `raiseErrors` is `false`, then returns with an empty object: `{}`.
  *
  * @function
  */
@@ -147,6 +147,30 @@ var mergeJsonFileSync = function mergeJsonFileSync(acc, dataFileName) {
  *
  * @return {Object} - The resulted data object
  *
+ * @example
+ *  // earth.yml:
+ *  planets:
+ *      Earth:
+ *          moons:
+ *              Moon: {}
+ *
+ *  // moons.yml:
+ *  planets:
+ *      Earth:
+ *          numOfMoons: 1
+ *
+ *  mergeJsonFilesSync([
+ *      'src/fixtures/merge/earth.yml',
+ *      'src/fixtures/merge/moons.yml'
+ *  ]
+ *
+ *  // =>
+ *  planets:
+ *      Earth:
+ *          numOfMoons: 1
+ *          moons:
+ *              Moon: {}
+ *
  * @function
  */
 var mergeJsonFilesSync = exports.mergeJsonFilesSync = function mergeJsonFilesSync(listOfJsonFiles) {
@@ -156,8 +180,9 @@ var mergeJsonFilesSync = exports.mergeJsonFilesSync = function mergeJsonFilesSyn
 /**
  * Load the listed data files and merge them into a single object.
  *
- * It is an alias of the mergeFiles function.
+ * It is an alias of the __{@link mergeJsonFilesSync}__ function.
  *
+ * @see {@link mergeJsonFilesSync}
  * @deprecated
  *
  * @function
@@ -198,6 +223,9 @@ var listFilesSync = exports.listFilesSync = function listFilesSync(baseDir) {
  * Recursively finds the files under the `baseDir` directory, that have name which matches the `pattern`.
  * @arg {String} baseDir - The path to the base directory to start searching.
  * @arg {RegExp} pattern - The regular expression pattern to match the filenames.
+ * @arg {Boolean} recurse - Find files in subdirectories as well if `true`. Default: `true`.
+ * @arg {Booleand} splitBaseDir - If `true`, removes the `baseDir` from the paths of the files found,
+ * if `false` then returns with the full path. Default: 'false'.
  *
  * @return {Array} - The list of file paths found
  *
@@ -205,8 +233,11 @@ var listFilesSync = exports.listFilesSync = function listFilesSync(baseDir) {
  */
 var findFilesSync = exports.findFilesSync = function findFilesSync(baseDir, pattern) {
     var recurse = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-    return _.filter(listFilesSync(baseDir, recurse), function (name, index, dir) {
+    var splitBaseDir = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+    return _.map(_.filter(listFilesSync(baseDir, recurse), function (name, index, dir) {
         return _.isArray(_.last(name.split('/')).match(pattern));
+    }), function (fullPath) {
+        return splitBaseDir ? fullPath.slice(baseDir.length) : fullPath;
     });
 };
 

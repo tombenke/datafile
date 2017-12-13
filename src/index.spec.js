@@ -100,7 +100,7 @@ describe('datafile', () => {
 
     it('loadJsonFileSync - try to load with no name (throws exception)', () => {
         try {
-            loadJsonFileSync(null)
+            loadJsonFileSync(null, true)
         } catch (err) {
             expect(err).toEqual('Error: File name is missing!')
         }
@@ -136,6 +136,10 @@ describe('datafile', () => {
 
     it('findFilesSync - find s*.yml files (non-recursive)', () => {
         expect(findFilesSync('src/fixtures/merge/', /^s.+\.yml$/, false)).toEqual([ 'solarSystem.yml' ])
+    })
+
+    it('findFilesSync - find s*.yml files (recursive + splitBaseDir)', () => {
+        expect(findFilesSync('src/fixtures/merge/', /^s.+\.yml$/, true, true)).toEqual([ 'solarSystem.yml' ])
     })
 
     it('mergeJsonFilesSync - load a single file', () => {
