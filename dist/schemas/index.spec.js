@@ -1,9 +1,4 @@
-#!/usr/bin/env node
-
-/*jshint node: true */
 'use strict';
-
-//import should from 'should'
 
 var _expect = require('expect');
 

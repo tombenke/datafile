@@ -1,8 +1,3 @@
-#!/usr/bin/env node
-/*jshint node: true */
-'use strict';
-
-//import should from 'should'
 import expect from 'expect'
 import schemas from './index'
 import {
