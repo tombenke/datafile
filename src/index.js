@@ -21,14 +21,14 @@ import * as schemas from './schemas/'
  *
  * @function
  */
-export const loadTextFileSync = function(fileName, raiseErrors=true) {
-	let content = null
+export const loadTextFileSync = function(fileName, raiseErrors = true) {
+    let content = null
 
     try {
         content = fs.readFileSync(path.resolve(fileName), { encoding: 'utf8' })
     } catch (err) {
         if (raiseErrors) {
-            throw(err)
+            throw err
         }
     }
     return content
@@ -43,13 +43,12 @@ export const loadTextFileSync = function(fileName, raiseErrors=true) {
  *
  * @function
  */
-export const saveTextFileSync = function(fileName, content, raiseErrors=true) {
-
+export const saveTextFileSync = function(fileName, content, raiseErrors = true) {
     try {
         fs.writeFileSync(path.resolve(fileName), content, { encoding: 'utf8' })
     } catch (err) {
         if (raiseErrors) {
-            throw(err)
+            throw err
         }
     }
 }
@@ -66,20 +65,20 @@ export const saveTextFileSync = function(fileName, content, raiseErrors=true) {
  *
  * @function
  */
-export const loadJsonFileSync = function(fileName, raiseErrors=true) {
-	let content = {}
+export const loadJsonFileSync = function(fileName, raiseErrors = true) {
+    let content = {}
 
     if (fileName) {
         try {
-            content = yaml.safeLoad(fs.readFileSync(path.resolve(fileName), { encoding: 'utf8' }));
+            content = yaml.safeLoad(fs.readFileSync(path.resolve(fileName), { encoding: 'utf8' }))
         } catch (err) {
             if (raiseErrors) {
-                throw(err)
+                throw err
             }
         }
     } else {
         if (raiseErrors) {
-            throw(new Error('File name is missing!'))
+            throw new Error('File name is missing!')
         }
     }
     return content
@@ -167,12 +166,15 @@ export const loadData = listOfJsonFiles => mergeJsonFilesSync(listOfJsonFiles)
  *
  * @function
  */
-export const listFilesSync = (baseDir, recurse=true) => {
+export const listFilesSync = (baseDir, recurse = true) => {
     if (fs.statSync(baseDir).isDirectory()) {
-        return _.flatMap(fs.readdirSync(baseDir),
-            f => recurse ?
-                listFilesSync(path.join(baseDir, f), recurse) :
-                fs.statSync(path.join(baseDir, f)).isDirectory() ? [] : f)
+        return _.flatMap(fs.readdirSync(baseDir), f =>
+            recurse
+                ? listFilesSync(path.join(baseDir, f), recurse)
+                : fs.statSync(path.join(baseDir, f)).isDirectory()
+                ? []
+                : f
+        )
     } else {
         return baseDir
     }
@@ -192,10 +194,13 @@ export const listFilesSync = (baseDir, recurse=true) => {
  *
  * @function
  */
-export const findFilesSync = (baseDir, pattern, recurse=true, splitBaseDir=false) =>
-    _.map(_.filter(listFilesSync(baseDir, recurse), (name, index, dir) => {
-        return _.isArray(_.last(name.split('/')).match(pattern))
-    }), fullPath => splitBaseDir ? fullPath.slice(baseDir.length) : fullPath)
+export const findFilesSync = (baseDir, pattern, recurse = true, splitBaseDir = false) =>
+    _.map(
+        _.filter(listFilesSync(baseDir, recurse), (name, index, dir) => {
+            return _.isArray(_.last(name.split('/')).match(pattern))
+        }),
+        fullPath => (splitBaseDir ? fullPath.slice(baseDir.length) : fullPath)
+    )
 
 /**
  * Creates a function that merge a single file into an accumulator object, using a unique value as a key.
@@ -243,7 +248,7 @@ const mergeJsonFileByKeySync = keyProp => (acc, dataFileName) => {
  *
  * @function
  */
-export const mergeJsonFilesByKeySync = (listOfJsonFiles, keyProp, acc={}) =>
+export const mergeJsonFilesByKeySync = (listOfJsonFiles, keyProp, acc = {}) =>
     _.reduce(listOfJsonFiles, mergeJsonFileByKeySync(keyProp), acc)
 
 /**
@@ -286,7 +291,7 @@ const mergeJsonFileByFileNameSync = (acc, dataFileName) => {
  *
  * @function
  */
-export const mergeJsonFilesByFileNameSync = (listOfJsonFiles, acc={}) =>
+export const mergeJsonFilesByFileNameSync = (listOfJsonFiles, acc = {}) =>
     _.reduce(listOfJsonFiles, mergeJsonFileByFileNameSync, acc)
 
 /**
@@ -318,7 +323,7 @@ const mergeTextFileByFileNameSync = (acc, textFileName) => {
  *
  * @function
  */
-export const mergeTextFilesByFileNameSync = (listOfTextFiles, acc={}) =>
+export const mergeTextFilesByFileNameSync = (listOfTextFiles, acc = {}) =>
     _.reduce(listOfTextFiles, mergeTextFileByFileNameSync, acc)
 
 export const loadSchema = schemas.loadSchema

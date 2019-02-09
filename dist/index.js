@@ -74,7 +74,6 @@ var loadTextFileSync = exports.loadTextFileSync = function loadTextFileSync(file
 var saveTextFileSync = exports.saveTextFileSync = function saveTextFileSync(fileName, content) {
     var raiseErrors = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
-
     try {
         _fs2.default.writeFileSync(_path2.default.resolve(fileName), content, { encoding: 'utf8' });
     } catch (err) {

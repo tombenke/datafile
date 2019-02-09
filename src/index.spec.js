@@ -33,9 +33,7 @@ after(function(done) {
     destCleanup(done)
 })
 
-
 describe('datafile', () => {
-
     it('loadTextFileSync - load a text file', () => {
         const content = loadTextFileSync('src/fixtures/merge/earth.yml', false)
         expect(typeof content).toBe('string')
@@ -58,7 +56,7 @@ describe('datafile', () => {
 
     it('saveTextFileSync - save text content into a file', () => {
         const testFileName = 'tmp/testFileToSave.txt'
-        const contentToSave = "This is a simple text to save,\nand load back\n\n"
+        const contentToSave = 'This is a simple text to save,\nand load back\n\n'
 
         saveTextFileSync(testFileName, contentToSave, false)
         expect(fs.readFileSync(testFileName, 'utf-8')).toEqual(contentToSave)
@@ -118,10 +116,10 @@ describe('datafile', () => {
             'src/fixtures/merge/mars.yml',
             'src/fixtures/merge/moons.yml',
             'src/fixtures/merge/solarSystem.yml',
-            "src/fixtures/templates/copyright.html",
-            "src/fixtures/templates/footer.html",
-            "src/fixtures/templates/header.html",
-            "src/fixtures/templates/main.html",
+            'src/fixtures/templates/copyright.html',
+            'src/fixtures/templates/footer.html',
+            'src/fixtures/templates/header.html',
+            'src/fixtures/templates/main.html',
             'src/fixtures/tree/services/customers/customer/service.yml',
             'src/fixtures/tree/services/customers/service.yml',
             'src/fixtures/tree/services/defaults/noHeaders/service.yml',
@@ -131,15 +129,20 @@ describe('datafile', () => {
     })
 
     it('listFilesSync - list files (non-recursive)', () => {
-        expect(listFilesSync('src/fixtures/merge/', false)).toEqual([ 'earth.yml', 'mars.yml', 'moons.yml', 'solarSystem.yml' ])
+        expect(listFilesSync('src/fixtures/merge/', false)).toEqual([
+            'earth.yml',
+            'mars.yml',
+            'moons.yml',
+            'solarSystem.yml'
+        ])
     })
 
     it('findFilesSync - find s*.yml files (non-recursive)', () => {
-        expect(findFilesSync('src/fixtures/merge/', /^s.+\.yml$/, false)).toEqual([ 'solarSystem.yml' ])
+        expect(findFilesSync('src/fixtures/merge/', /^s.+\.yml$/, false)).toEqual(['solarSystem.yml'])
     })
 
     it('findFilesSync - find s*.yml files (recursive + splitBaseDir)', () => {
-        expect(findFilesSync('src/fixtures/merge/', /^s.+\.yml$/, true, true)).toEqual([ 'solarSystem.yml' ])
+        expect(findFilesSync('src/fixtures/merge/', /^s.+\.yml$/, true, true)).toEqual(['solarSystem.yml'])
     })
 
     it('mergeJsonFilesSync - load a single file', () => {
@@ -152,18 +155,18 @@ describe('datafile', () => {
 
     it('mergeJsonFilesSync - merging several files', () => {
         const data = mergeJsonFilesSync([
-                'src/fixtures/merge/solarSystem.yml',
-                'src/fixtures/merge/moons.yml',
-                'src/fixtures/merge/earth.yml',
-                'src/fixtures/merge/mars.yml'
+            'src/fixtures/merge/solarSystem.yml',
+            'src/fixtures/merge/moons.yml',
+            'src/fixtures/merge/earth.yml',
+            'src/fixtures/merge/mars.yml'
         ])
 
         const mars = {
-                "earthMass": 0.11,
-                "numOfMoons": 2,
-                "moons": {
-                "Deimos": {},
-                "Phobos": {}
+            earthMass: 0.11,
+            numOfMoons: 2,
+            moons: {
+                Deimos: {},
+                Phobos: {}
             }
         }
 
@@ -188,19 +191,29 @@ describe('datafile', () => {
 
     it('mergeJsonFilesByKeySync - find s*.yml files and merge them by urlPattern|urlTemplate keys', () => {
         const fileListToMerge = findFilesSync('src/fixtures/tree/', /^s.+\.yml$/)
-        const results = mergeJsonFilesByKeySync(fileListToMerge, 'uriTemplate', mergeJsonFilesByKeySync(fileListToMerge, 'urlPattern'))
-        expect(_.keys(results)).toEqual([ '/customers/{id}', '/customers', '/monitoring/isAlive', '/defaults/noHeaders', '/defaults/noTestCases' ])
+        const results = mergeJsonFilesByKeySync(
+            fileListToMerge,
+            'uriTemplate',
+            mergeJsonFilesByKeySync(fileListToMerge, 'urlPattern')
+        )
+        expect(_.keys(results)).toEqual([
+            '/customers/{id}',
+            '/customers',
+            '/monitoring/isAlive',
+            '/defaults/noHeaders',
+            '/defaults/noTestCases'
+        ])
     })
 
     it('mergeJsonFilesByFileNameSync - find s*.yml files and merge them by the names of the files', () => {
         const fileListToMerge = findFilesSync('src/fixtures/tree/', /^s.+\.yml$/)
         const results = mergeJsonFilesByFileNameSync(fileListToMerge, {})
         expect(_.keys(results)).toEqual([
-            "src/fixtures/tree/services/customers/customer/service.yml",
-            "src/fixtures/tree/services/customers/service.yml",
-            "src/fixtures/tree/services/defaults/noHeaders/service.yml",
-            "src/fixtures/tree/services/defaults/noTestCases/service.yml",
-            "src/fixtures/tree/services/monitoring/isAlive/service.yml"
+            'src/fixtures/tree/services/customers/customer/service.yml',
+            'src/fixtures/tree/services/customers/service.yml',
+            'src/fixtures/tree/services/defaults/noHeaders/service.yml',
+            'src/fixtures/tree/services/defaults/noTestCases/service.yml',
+            'src/fixtures/tree/services/monitoring/isAlive/service.yml'
         ])
         _.map(results, (dataItem, key) => {
             expect(dataItem).toBeInstanceOf(Object)
@@ -212,10 +225,10 @@ describe('datafile', () => {
         const fileListToMerge = findFilesSync('src/fixtures/templates/', /.*\.html$/)
         const results = mergeTextFilesByFileNameSync(fileListToMerge, {})
         expect(_.keys(results)).toEqual([
-            "src/fixtures/templates/copyright.html",
-            "src/fixtures/templates/footer.html",
-            "src/fixtures/templates/header.html",
-            "src/fixtures/templates/main.html"
+            'src/fixtures/templates/copyright.html',
+            'src/fixtures/templates/footer.html',
+            'src/fixtures/templates/header.html',
+            'src/fixtures/templates/main.html'
         ])
         _.map(results, (dataItem, key) => {
             expect(typeof dataItem).toBe('string')

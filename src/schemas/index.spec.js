@@ -11,7 +11,6 @@ import {
 } from '../index'
 
 describe('schemas', function() {
-
     it('#validate() - use single schema file', function(done) {
         const dataToValidate = loadJsonFileSync('src/schemas/fixtures/earth.yml')
         if (schemas.validate(dataToValidate, __dirname + '/fixtures/', 'planetSchema.yml').length === 0) {
@@ -32,9 +31,9 @@ describe('schemas', function() {
         const dataToValidate = loadJsonFileSync('src/schemas/fixtures/invalidPlanet.yml')
         const errors = schemas.validate(dataToValidate, __dirname + '/fixtures/', 'planetSchema.yml')
         if (errors.length > 0) {
-//            errors.length.should.equal(1)
-//            errors[0].kind.should.equal('ObjectValidationError')
-//            errors[0].desc.should.equal('missing: earthMass,moons')
+            //            errors.length.should.equal(1)
+            //            errors[0].kind.should.equal('ObjectValidationError')
+            //            errors[0].desc.should.equal('missing: earthMass,moons')
             expect(errors.length).toEqual(1)
             expect(errors[0].kind).toEqual('ObjectValidationError')
             expect(errors[0].desc).toEqual('missing: earthMass,moons')
@@ -46,7 +45,7 @@ describe('schemas', function() {
         const dataToValidate = loadJsonFileSync('src/schemas/fixtures/earth.yml')
         const errors = schemas.validate(dataToValidate, __dirname + '/fixtures/', 'missingSchema.yml')
         if (errors.length > 0) {
-//            errors[0].desc.should.equal('No schema provided for validation.')
+            //            errors[0].desc.should.equal('No schema provided for validation.')
             expect(errors[0].desc).toEqual('No schema provided for validation.')
             done()
         }

@@ -13,7 +13,6 @@ var _index3 = require('../index');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 describe('schemas', function () {
-
     it('#validate() - use single schema file', function (done) {
         var dataToValidate = (0, _index3.loadJsonFileSync)('src/schemas/fixtures/earth.yml');
         if (_index2.default.validate(dataToValidate, __dirname + '/fixtures/', 'planetSchema.yml').length === 0) {

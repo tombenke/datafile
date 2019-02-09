@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*jshint node: true */
-'use strict';
+'use strict'
 
 /**
  * JSON schema validator
@@ -40,7 +40,6 @@ const loadSchema = function(schemaBasePath, fullSchemaFileName) {
         missingSchemas.forEach(function(missingSchema) {
             loadSchema(schemaBasePath, missingSchema)
         })
-
     } catch (err) {
         //console.log(err)
     }

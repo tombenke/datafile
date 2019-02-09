@@ -46,7 +46,6 @@ after(function (done) {
 });
 
 describe('datafile', function () {
-
     it('loadTextFileSync - load a text file', function () {
         var content = (0, _index.loadTextFileSync)('src/fixtures/merge/earth.yml', false);
         (0, _expect2.default)(typeof content === 'undefined' ? 'undefined' : _typeof(content)).toBe('string');
@@ -69,7 +68,7 @@ describe('datafile', function () {
 
     it('saveTextFileSync - save text content into a file', function () {
         var testFileName = 'tmp/testFileToSave.txt';
-        var contentToSave = "This is a simple text to save,\nand load back\n\n";
+        var contentToSave = 'This is a simple text to save,\nand load back\n\n';
 
         (0, _index.saveTextFileSync)(testFileName, contentToSave, false);
         (0, _expect2.default)(_fs2.default.readFileSync(testFileName, 'utf-8')).toEqual(contentToSave);
@@ -124,7 +123,7 @@ describe('datafile', function () {
     });
 
     it('listFilesSync - list files (recursive)', function () {
-        (0, _expect2.default)((0, _index.listFilesSync)('src/fixtures/')).toEqual(['src/fixtures/merge/earth.yml', 'src/fixtures/merge/mars.yml', 'src/fixtures/merge/moons.yml', 'src/fixtures/merge/solarSystem.yml', "src/fixtures/templates/copyright.html", "src/fixtures/templates/footer.html", "src/fixtures/templates/header.html", "src/fixtures/templates/main.html", 'src/fixtures/tree/services/customers/customer/service.yml', 'src/fixtures/tree/services/customers/service.yml', 'src/fixtures/tree/services/defaults/noHeaders/service.yml', 'src/fixtures/tree/services/defaults/noTestCases/service.yml', 'src/fixtures/tree/services/monitoring/isAlive/service.yml']);
+        (0, _expect2.default)((0, _index.listFilesSync)('src/fixtures/')).toEqual(['src/fixtures/merge/earth.yml', 'src/fixtures/merge/mars.yml', 'src/fixtures/merge/moons.yml', 'src/fixtures/merge/solarSystem.yml', 'src/fixtures/templates/copyright.html', 'src/fixtures/templates/footer.html', 'src/fixtures/templates/header.html', 'src/fixtures/templates/main.html', 'src/fixtures/tree/services/customers/customer/service.yml', 'src/fixtures/tree/services/customers/service.yml', 'src/fixtures/tree/services/defaults/noHeaders/service.yml', 'src/fixtures/tree/services/defaults/noTestCases/service.yml', 'src/fixtures/tree/services/monitoring/isAlive/service.yml']);
     });
 
     it('listFilesSync - list files (non-recursive)', function () {
@@ -151,11 +150,11 @@ describe('datafile', function () {
         var data = (0, _index.mergeJsonFilesSync)(['src/fixtures/merge/solarSystem.yml', 'src/fixtures/merge/moons.yml', 'src/fixtures/merge/earth.yml', 'src/fixtures/merge/mars.yml']);
 
         var mars = {
-            "earthMass": 0.11,
-            "numOfMoons": 2,
-            "moons": {
-                "Deimos": {},
-                "Phobos": {}
+            earthMass: 0.11,
+            numOfMoons: 2,
+            moons: {
+                Deimos: {},
+                Phobos: {}
             }
         };
 
@@ -182,7 +181,7 @@ describe('datafile', function () {
     it('mergeJsonFilesByFileNameSync - find s*.yml files and merge them by the names of the files', function () {
         var fileListToMerge = (0, _index.findFilesSync)('src/fixtures/tree/', /^s.+\.yml$/);
         var results = (0, _index.mergeJsonFilesByFileNameSync)(fileListToMerge, {});
-        (0, _expect2.default)(_.keys(results)).toEqual(["src/fixtures/tree/services/customers/customer/service.yml", "src/fixtures/tree/services/customers/service.yml", "src/fixtures/tree/services/defaults/noHeaders/service.yml", "src/fixtures/tree/services/defaults/noTestCases/service.yml", "src/fixtures/tree/services/monitoring/isAlive/service.yml"]);
+        (0, _expect2.default)(_.keys(results)).toEqual(['src/fixtures/tree/services/customers/customer/service.yml', 'src/fixtures/tree/services/customers/service.yml', 'src/fixtures/tree/services/defaults/noHeaders/service.yml', 'src/fixtures/tree/services/defaults/noTestCases/service.yml', 'src/fixtures/tree/services/monitoring/isAlive/service.yml']);
         _.map(results, function (dataItem, key) {
             (0, _expect2.default)(dataItem).toBeInstanceOf(Object);
             (0, _expect2.default)(dataItem).toEqual((0, _index.loadJsonFileSync)(key));
@@ -192,7 +191,7 @@ describe('datafile', function () {
     it('mergeTextFilesByFileNameSync - find and read files as plain text and merge them by their names', function () {
         var fileListToMerge = (0, _index.findFilesSync)('src/fixtures/templates/', /.*\.html$/);
         var results = (0, _index.mergeTextFilesByFileNameSync)(fileListToMerge, {});
-        (0, _expect2.default)(_.keys(results)).toEqual(["src/fixtures/templates/copyright.html", "src/fixtures/templates/footer.html", "src/fixtures/templates/header.html", "src/fixtures/templates/main.html"]);
+        (0, _expect2.default)(_.keys(results)).toEqual(['src/fixtures/templates/copyright.html', 'src/fixtures/templates/footer.html', 'src/fixtures/templates/header.html', 'src/fixtures/templates/main.html']);
         _.map(results, function (dataItem, key) {
             (0, _expect2.default)(typeof dataItem === 'undefined' ? 'undefined' : _typeof(dataItem)).toBe('string');
             (0, _expect2.default)(dataItem).toEqual((0, _index.loadTextFileSync)(key));
