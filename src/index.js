@@ -86,14 +86,14 @@ export const loadJsonFileSync = (fileName, raiseErrors = true) => {
 }
 
 /**
- * Load JSON/YAML datafile with references
+ * Asynchronous load of JSON/YAML datafile with references
  *
  * The data file can be either a JSON or a YAML format file, references are loaded and resolved too.
  *
  * @arg {String} fileName     - The full path of the file to load.
  * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
  *
- * @return {Object} - An object with two properties: `{ refs, resolved}`. The `resolved` holds the data loaded as a JSON object, and the `refs` that holds the references.
+ * @return {Object} - A Promise that resolves to an object with two properties: `{ refs, resolved}`. The `resolved` holds the data loaded as a JSON object, and the `refs` that holds the references.
  *
  * @function
  */

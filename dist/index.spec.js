@@ -123,7 +123,7 @@ describe('datafile', function () {
     });
 
     it('listFilesSync - list files (recursive)', function () {
-        (0, _expect2.default)((0, _index.listFilesSync)('src/fixtures/')).toEqual(['src/fixtures/merge/earth.yml', 'src/fixtures/merge/mars.yml', 'src/fixtures/merge/moons.yml', 'src/fixtures/merge/solarSystem.yml', 'src/fixtures/refs/endpoints/health.yml', 'src/fixtures/refs/endpoints/monitoring.yml', 'src/fixtures/refs/genericHeaders.yml', "src/fixtures/refs/protocols.yml", "src/fixtures/refs/root.yml", 'src/fixtures/templates/copyright.html', 'src/fixtures/templates/footer.html', 'src/fixtures/templates/header.html', 'src/fixtures/templates/main.html', 'src/fixtures/tree/services/customers/customer/service.yml', 'src/fixtures/tree/services/customers/service.yml', 'src/fixtures/tree/services/defaults/noHeaders/service.yml', 'src/fixtures/tree/services/defaults/noTestCases/service.yml', 'src/fixtures/tree/services/monitoring/isAlive/service.yml']);
+        (0, _expect2.default)((0, _index.listFilesSync)('src/fixtures/')).toEqual(['src/fixtures/merge/earth.yml', 'src/fixtures/merge/mars.yml', 'src/fixtures/merge/moons.yml', 'src/fixtures/merge/solarSystem.yml', 'src/fixtures/refs/endpoints/health.yml', 'src/fixtures/refs/endpoints/monitoring.yml', 'src/fixtures/refs/genericHeaders.yml', 'src/fixtures/refs/protocols.yml', 'src/fixtures/refs/root.yml', 'src/fixtures/templates/copyright.html', 'src/fixtures/templates/footer.html', 'src/fixtures/templates/header.html', 'src/fixtures/templates/main.html', 'src/fixtures/tree/services/customers/customer/service.yml', 'src/fixtures/tree/services/customers/service.yml', 'src/fixtures/tree/services/defaults/noHeaders/service.yml', 'src/fixtures/tree/services/defaults/noTestCases/service.yml', 'src/fixtures/tree/services/monitoring/isAlive/service.yml']);
     });
 
     it('listFilesSync - list files (non-recursive)', function () {
@@ -200,7 +200,7 @@ describe('datafile', function () {
 
     it('loadJsonWithRefs', function (done) {
         (0, _index.loadJsonWithRefs)('./src/fixtures/refs/root.yml').then(function (results) {
-            var expected = ["#/server/protocols", "#/server/endpoints/0", "#/server/endpoints/0/methods/get/headers", "#/server/endpoints/1", "#/server/endpoints/1/some_def", "#/server/endpoints/1/methods/get/headers"];
+            var expected = ['#/server/protocols', '#/server/endpoints/0', '#/server/endpoints/0/methods/get/headers', '#/server/endpoints/1', '#/server/endpoints/1/some_def', '#/server/endpoints/1/methods/get/headers'];
             var refs = _.map(results.refs, function (v, k, i) {
                 return k;
             });

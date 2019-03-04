@@ -819,7 +819,7 @@ Skips directory names from the result list. Only files will be listed.</p>
 
 
 <div class="description">
-    <p>Load JSON/YAML datafile with references</p>
+    <p>Asynchronous load of JSON/YAML datafile with references</p>
 <p>The data file can be either a JSON or a YAML format file, references are loaded and resolved too.</p>
 </div>
 
@@ -959,7 +959,7 @@ Skips directory names from the result list. Only files will be listed.</p>
         
 <div class="param-desc">
     <ul>
-<li>An object with two properties: <code>{ refs, resolved}</code>. The <code>resolved</code> holds the data loaded as a JSON object, and the <code>refs</code> that holds the references.</li>
+<li>A Promise that resolves to an object with two properties: <code>{ refs, resolved}</code>. The <code>resolved</code> holds the data loaded as a JSON object, and the <code>refs</code> that holds the references.</li>
 </ul>
 </div>
 
