@@ -7,6 +7,7 @@ import {
     loadTextFileSync,
     saveTextFileSync,
     loadJsonFileSync,
+    loadJsonWithRefs,
     mergeJsonFilesSync,
     listFilesSync,
     findFilesSync,
@@ -116,6 +117,11 @@ describe('datafile', () => {
             'src/fixtures/merge/mars.yml',
             'src/fixtures/merge/moons.yml',
             'src/fixtures/merge/solarSystem.yml',
+            'src/fixtures/refs/endpoints/health.yml',
+            'src/fixtures/refs/endpoints/monitoring.yml',
+            'src/fixtures/refs/genericHeaders.yml',
+            'src/fixtures/refs/protocols.yml',
+            'src/fixtures/refs/root.yml',
             'src/fixtures/templates/copyright.html',
             'src/fixtures/templates/footer.html',
             'src/fixtures/templates/header.html',
@@ -233,6 +239,26 @@ describe('datafile', () => {
         _.map(results, (dataItem, key) => {
             expect(typeof dataItem).toBe('string')
             expect(dataItem).toEqual(loadTextFileSync(key))
+        })
+    })
+
+    it('loadJsonWithRefs', done => {
+        loadJsonWithRefs('./src/fixtures/refs/root.yml').then(results => {
+            const expected = [
+                '#/server/protocols',
+                '#/server/endpoints/0',
+                '#/server/endpoints/0/methods/get/headers',
+                '#/server/endpoints/1',
+                '#/server/endpoints/1/some_def',
+                '#/server/endpoints/1/methods/get/headers'
+            ]
+            const refs = _.map(results.refs, (v, k, i) => k)
+            expect(expected).toEqual(refs)
+            expect(results.resolved.server.protocols).toEqual(['http', 'https'])
+            expect(results.resolved.server.endpoints[0].methods.get.headers).toEqual(
+                results.resolved.server.endpoints[1].methods.get.headers
+            )
+            done()
         })
     })
 })

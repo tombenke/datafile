@@ -4,6 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import yaml from 'js-yaml'
 import * as schemas from './schemas/'
+import { resolveRefs } from 'json-refs'
 
 /**
  * Data file handler functions.
@@ -65,7 +66,7 @@ export const saveTextFileSync = function(fileName, content, raiseErrors = true) 
  *
  * @function
  */
-export const loadJsonFileSync = function(fileName, raiseErrors = true) {
+export const loadJsonFileSync = (fileName, raiseErrors = true) => {
     let content = {}
 
     if (fileName) {
@@ -82,6 +83,35 @@ export const loadJsonFileSync = function(fileName, raiseErrors = true) {
         }
     }
     return content
+}
+
+/**
+ * Load JSON/YAML datafile with references
+ *
+ * The data file can be either a JSON or a YAML format file, references are loaded and resolved too.
+ *
+ * @arg {String} fileName     - The full path of the file to load.
+ * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
+ *
+ * @return {Object} - An object with two properties: `{ refs, resolved}`. The `resolved` holds the data loaded as a JSON object, and the `refs` that holds the references.
+ *
+ * @function
+ */
+export const loadJsonWithRefs = fileName => {
+    const location = path.resolve(fileName)
+    const root = loadJsonFileSync(location, true)
+
+    return resolveRefs(root, {
+        location: location,
+        filter: ['relative', 'remote'],
+        loaderOptions: {
+            processContent: (res, callback) => {
+                callback(null, yaml.safeLoad(res.text))
+            }
+        }
+    }).then(results => {
+        return Promise.resolve(results)
+    })
 }
 
 /**

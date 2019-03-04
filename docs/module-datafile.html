@@ -811,6 +811,184 @@ Skips directory names from the result list. Only files will be listed.</p>
     
 
     
+    <h4 class="name" id=".loadJsonWithRefs"><span class="type-signature">(static) </span>loadJsonWithRefs<span class="signature">(fileName, raiseErrors)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Load JSON/YAML datafile with references</p>
+<p>The data file can be either a JSON or a YAML format file, references are loaded and resolved too.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fileName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The full path of the file to load.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>raiseErrors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: <code>true</code>.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>An object with two properties: <code>{ refs, resolved}</code>. The <code>resolved</code> holds the data loaded as a JSON object, and the <code>refs</code> that holds the references.</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id=".loadTextFileSync"><span class="type-signature">(static) </span>loadTextFileSync<span class="signature">(fileName, raiseErrors)</span><span class="type-signature"> &rarr; {String}</span></h4>
     
 

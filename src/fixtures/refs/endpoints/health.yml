@@ -1,0 +1,5 @@
+path: /health
+methods:
+    get:
+        headers:
+            $ref: ../genericHeaders.yml

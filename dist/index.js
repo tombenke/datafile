@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.validate = exports.loadSchema = exports.mergeTextFilesByFileNameSync = exports.mergeJsonFilesByFileNameSync = exports.mergeJsonFilesByKeySync = exports.findFilesSync = exports.listFilesSync = exports.loadData = exports.mergeJsonFilesSync = exports.loadJsonFileSync = exports.saveTextFileSync = exports.loadTextFileSync = undefined;
+exports.validate = exports.loadSchema = exports.mergeTextFilesByFileNameSync = exports.mergeJsonFilesByFileNameSync = exports.mergeJsonFilesByKeySync = exports.findFilesSync = exports.listFilesSync = exports.loadData = exports.mergeJsonFilesSync = exports.loadJsonWithRefs = exports.loadJsonFileSync = exports.saveTextFileSync = exports.loadTextFileSync = undefined;
 
 var _lodash = require('lodash');
 
@@ -24,6 +24,8 @@ var _jsYaml2 = _interopRequireDefault(_jsYaml);
 var _schemas = require('./schemas/');
 
 var schemas = _interopRequireWildcard(_schemas);
+
+var _jsonRefs = require('json-refs');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -114,6 +116,35 @@ var loadJsonFileSync = exports.loadJsonFileSync = function loadJsonFileSync(file
         }
     }
     return content;
+};
+
+/**
+ * Load JSON/YAML datafile with references
+ *
+ * The data file can be either a JSON or a YAML format file, references are loaded and resolved too.
+ *
+ * @arg {String} fileName     - The full path of the file to load.
+ * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
+ *
+ * @return {Object} - An object with two properties: `{ refs, resolved}`. The `resolved` holds the data loaded as a JSON object, and the `refs` that holds the references.
+ *
+ * @function
+ */
+var loadJsonWithRefs = exports.loadJsonWithRefs = function loadJsonWithRefs(fileName) {
+    var location = _path2.default.resolve(fileName);
+    var root = loadJsonFileSync(location, true);
+
+    return (0, _jsonRefs.resolveRefs)(root, {
+        location: location,
+        filter: ['relative', 'remote'],
+        loaderOptions: {
+            processContent: function processContent(res, callback) {
+                callback(null, _jsYaml2.default.safeLoad(res.text));
+            }
+        }
+    }).then(function (results) {
+        return Promise.resolve(results);
+    });
 };
 
 /**

@@ -1,0 +1,10 @@
+# This is the root object of a hierarchy, that uses references
+server:
+    port: 2134
+    protocols:
+        $ref: protocols.yml
+    endpoints:
+        - $ref: endpoints/health.yml
+        - $ref: endpoints/monitoring.yml
+definitions:
+    monitor: Hello

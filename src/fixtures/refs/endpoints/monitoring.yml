@@ -1,0 +1,7 @@
+path: /monitoring
+some_def:
+    $ref: "../root.yml#/definitions/monitor"
+methods:
+    get:
+        headers:
+            $ref: ../genericHeaders.yml
