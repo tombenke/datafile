@@ -6,6 +6,7 @@ import * as _ from 'lodash'
 import {
     loadTextFileSync,
     saveTextFileSync,
+    saveYamlFileSync,
     loadJsonFileSync,
     loadJsonWithRefs,
     mergeJsonFilesSync,
@@ -61,6 +62,14 @@ describe('datafile', () => {
 
         saveTextFileSync(testFileName, contentToSave, false)
         expect(fs.readFileSync(testFileName, 'utf-8')).toEqual(contentToSave)
+    })
+
+    it('saveYamlFileSync - save content into a YAMl format file', () => {
+        const testFileName = 'tmp/testFileToSave.yml'
+        const contentToSave = { id: 42, text: 'This is a simple text to save,\nand load back\n\n' }
+
+        saveYamlFileSync(testFileName, contentToSave, {}, false)
+        expect(loadJsonFileSync(testFileName)).toEqual(contentToSave)
     })
 
     it('saveTextFileSync - try to save a file into a non-existing dir (throws exception)', () => {

@@ -44,7 +44,7 @@ export const loadTextFileSync = function(fileName, raiseErrors = true) {
  *
  * @function
  */
-export const saveTextFileSync = function(fileName, content, raiseErrors = true) {
+export const saveTextFileSync = (fileName, content, raiseErrors = true) => {
     try {
         fs.writeFileSync(path.resolve(fileName), content, { encoding: 'utf8' })
     } catch (err) {
@@ -53,6 +53,19 @@ export const saveTextFileSync = function(fileName, content, raiseErrors = true) 
         }
     }
 }
+
+/**
+ * Save content into a YAML format file
+ *
+ * @arg {String} fileName - The full path of the output file
+ * @arg {String} content - The content to dump in YAML format
+ * @arg {Object} options - The options of the `yaml.dump()` function. See the docs of [js-yaml](https://www.npmjs.com/package/js-yaml) package.
+ * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
+ *
+ * @function
+ */
+export const saveYamlFileSync = (fileName, content, options, raiseErrors = true) =>
+    saveTextFileSync(fileName, yaml.dump(content), raiseErrors)
 
 /**
  * Load JSON/YAML datafile
