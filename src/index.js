@@ -3,6 +3,8 @@ import * as _ from 'lodash'
 import fs from 'fs'
 import path from 'path'
 import yaml from 'js-yaml'
+import parseCsvSync from 'csv-parse/lib/sync'
+import stringifyCsvSync from 'csv-stringify/lib/sync'
 import * as schemas from './schemas/'
 import { resolveRefs } from 'json-refs'
 
@@ -66,6 +68,49 @@ export const saveTextFileSync = (fileName, content, raiseErrors = true) => {
  */
 export const saveYamlFileSync = (fileName, content, options, raiseErrors = true) =>
     saveTextFileSync(fileName, yaml.dump(content), raiseErrors)
+
+/**
+ * Dump an object into a YAML format string
+ *
+ * It is an alias to the `yaml.dump()` function of the [js-yaml](https://www.npmjs.com/package/js-yaml) package.
+ *
+ * @function
+ */
+export const stringifyToYaml = yaml.dump
+
+/**
+ * Load records from a CSV format file
+ *
+ * @arg {String} fileName - The full path of the input file
+ * @arg {Object} options - The options of the `yaml.dump()` function. See the docs of [js-yaml](https://www.npmjs.com/package/js-yaml) package.
+ * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
+ *
+ * @function
+ */
+export const loadCsvFileSync = (dataPath, options, raiseErrors = true) =>
+    parseCsvSync(loadTextFileSync(dataPath, raiseErrors), options)
+
+/**
+ * Save content into a CSV format file
+ *
+ * @arg {String} fileName - The full path of the output file
+ * @arg {String} content - The content to dump in CSV format
+ * @arg {Object} options - The options of the `stringify()` function. See the docs of [csv-stringify](https://csv.js.org/stringify/api/) package.
+ * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
+ *
+ * @function
+ */
+export const saveCsvFileSync = (fileName, content, options, raiseErrors = true) =>
+    saveTextFileSync(fileName, stringifyCsvSync(content, options), raiseErrors)
+
+/**
+ * Dump an object into a CSV format string
+ *
+ * It is an alias of the `stringify()` function of the [csv-stringify](https://csv.js.org/stringify/api/) package.
+ *
+ * @function
+ */
+export const stringifyToCsv = stringifyCsvSync
 
 /**
  * Load JSON/YAML datafile

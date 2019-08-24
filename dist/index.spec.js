@@ -74,6 +74,31 @@ describe('datafile', function () {
         (0, _expect2.default)(_fs2.default.readFileSync(testFileName, 'utf-8')).toEqual(contentToSave);
     });
 
+    it('saveYamlFileSync - save content into a YAMl format file', function () {
+        var testFileName = 'tmp/testFileToSave.yml';
+        var contentToSave = { id: 42, text: 'This is a simple text to save,\nand load back\n\n' };
+
+        (0, _index.saveYamlFileSync)(testFileName, contentToSave, {}, false);
+        (0, _expect2.default)((0, _index.loadJsonFileSync)(testFileName)).toEqual(contentToSave);
+    });
+
+    it('loadCsvFileSync - load records from a CSV format file synchronously', function () {
+        var testDataCsvFileName = 'src/fixtures/testdata.csv';
+        var testDataYamlFileName = 'src/fixtures/testdata.yml';
+        var csvData = (0, _index.loadCsvFileSync)(testDataCsvFileName, { columns: true, skip_empty_lines: true });
+        var yamlData = (0, _index.loadJsonFileSync)(testDataYamlFileName);
+        (0, _expect2.default)(csvData).toEqual(yamlData);
+    });
+
+    it('saveCsvFileSync - save records to a CSV format file synchronously', function () {
+        var outputCsvFileName = 'tmp/testdata.csv';
+        var testDataYamlFileName = 'src/fixtures/testdata.yml';
+        var yamlData = (0, _index.loadJsonFileSync)(testDataYamlFileName);
+        (0, _index.saveCsvFileSync)(outputCsvFileName, yamlData, { header: true /*, columns: ['id', 'userName', 'fullName', 'email']*/ });
+        var csvData = (0, _index.loadCsvFileSync)(outputCsvFileName, { columns: true, skip_empty_lines: true });
+        (0, _expect2.default)(csvData).toEqual(yamlData);
+    });
+
     it('saveTextFileSync - try to save a file into a non-existing dir (throws exception)', function () {
         try {
             (0, _index.saveTextFileSync)('tmp/nonExistingFileDir/file.txt', 'content');
@@ -123,7 +148,7 @@ describe('datafile', function () {
     });
 
     it('listFilesSync - list files (recursive)', function () {
-        (0, _expect2.default)((0, _index.listFilesSync)('src/fixtures/')).toEqual(['src/fixtures/merge/earth.yml', 'src/fixtures/merge/mars.yml', 'src/fixtures/merge/moons.yml', 'src/fixtures/merge/solarSystem.yml', 'src/fixtures/refs/endpoints/health.yml', 'src/fixtures/refs/endpoints/monitoring.yml', 'src/fixtures/refs/genericHeaders.yml', 'src/fixtures/refs/protocols.yml', 'src/fixtures/refs/root.yml', 'src/fixtures/templates/copyright.html', 'src/fixtures/templates/footer.html', 'src/fixtures/templates/header.html', 'src/fixtures/templates/main.html', 'src/fixtures/tree/services/customers/customer/service.yml', 'src/fixtures/tree/services/customers/service.yml', 'src/fixtures/tree/services/defaults/noHeaders/service.yml', 'src/fixtures/tree/services/defaults/noTestCases/service.yml', 'src/fixtures/tree/services/monitoring/isAlive/service.yml']);
+        (0, _expect2.default)((0, _index.listFilesSync)('src/fixtures/')).toEqual(['src/fixtures/merge/earth.yml', 'src/fixtures/merge/mars.yml', 'src/fixtures/merge/moons.yml', 'src/fixtures/merge/solarSystem.yml', 'src/fixtures/refs/endpoints/health.yml', 'src/fixtures/refs/endpoints/monitoring.yml', 'src/fixtures/refs/genericHeaders.yml', 'src/fixtures/refs/protocols.yml', 'src/fixtures/refs/root.yml', 'src/fixtures/templates/copyright.html', 'src/fixtures/templates/footer.html', 'src/fixtures/templates/header.html', 'src/fixtures/templates/main.html', 'src/fixtures/testdata.csv', 'src/fixtures/testdata.yml', 'src/fixtures/tree/services/customers/customer/service.yml', 'src/fixtures/tree/services/customers/service.yml', 'src/fixtures/tree/services/defaults/noHeaders/service.yml', 'src/fixtures/tree/services/defaults/noTestCases/service.yml', 'src/fixtures/tree/services/monitoring/isAlive/service.yml']);
     });
 
     it('listFilesSync - list files (non-recursive)', function () {

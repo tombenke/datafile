@@ -548,6 +548,184 @@ Skips directory names from the result list. Only files will be listed.</p>
     
 
     
+    <h4 class="name" id=".loadCsvFileSync"><span class="type-signature">(static) </span>loadCsvFileSync<span class="signature">(fileName, options, raiseErrors)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Load records from a CSV format file</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fileName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The full path of the input file</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The options of the <code>yaml.dump()</code> function. See the docs of <a href="https://www.npmjs.com/package/js-yaml">js-yaml</a> package.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>raiseErrors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: <code>true</code>.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id=".loadData"><span class="type-signature">(static) </span>loadData<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -1922,6 +2100,207 @@ as properties of the object, using the filename as the property name.</p>
     
 
     
+    <h4 class="name" id=".saveCsvFileSync"><span class="type-signature">(static) </span>saveCsvFileSync<span class="signature">(fileName, content, options, raiseErrors)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Save content into a CSV format file</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fileName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The full path of the output file</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>content</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The content to dump in CSV format</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The options of the <code>stringify()</code> function. See the docs of <a href="https://csv.js.org/stringify/api/">csv-stringify</a> package.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>raiseErrors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: <code>true</code>.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id=".saveTextFileSync"><span class="type-signature">(static) </span>saveTextFileSync<span class="signature">(fileName, content, raiseErrors)</span><span class="type-signature"></span></h4>
     
 
@@ -2034,6 +2413,375 @@ as properties of the object, using the filename as the property name.</p>
     
     </tbody>
 </table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".saveYamlFileSync"><span class="type-signature">(static) </span>saveYamlFileSync<span class="signature">(fileName, content, options, raiseErrors)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Save content into a YAML format file</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fileName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The full path of the output file</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>content</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The content to dump in YAML format</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The options of the <code>yaml.dump()</code> function. See the docs of <a href="https://www.npmjs.com/package/js-yaml">js-yaml</a> package.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>raiseErrors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: <code>true</code>.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".stringifyToCsv"><span class="type-signature">(static) </span>stringifyToCsv<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Dump an object into a CSV format string</p>
+<p>It is an alias of the <code>stringify()</code> function of the <a href="https://csv.js.org/stringify/api/">csv-stringify</a> package.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".stringifyToYaml"><span class="type-signature">(static) </span>stringifyToYaml<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Dump an object into a YAML format string</p>
+<p>It is an alias to the <code>yaml.dump()</code> function of the <a href="https://www.npmjs.com/package/js-yaml">js-yaml</a> package.</p>
+</div>
+
+
+
+
+
+
+
 
 
 

@@ -7,6 +7,8 @@ import {
     loadTextFileSync,
     saveTextFileSync,
     saveYamlFileSync,
+    loadCsvFileSync,
+    saveCsvFileSync,
     loadJsonFileSync,
     loadJsonWithRefs,
     mergeJsonFilesSync,
@@ -72,6 +74,23 @@ describe('datafile', () => {
         expect(loadJsonFileSync(testFileName)).toEqual(contentToSave)
     })
 
+    it('loadCsvFileSync - load records from a CSV format file synchronously', () => {
+        const testDataCsvFileName = 'src/fixtures/testdata.csv'
+        const testDataYamlFileName = 'src/fixtures/testdata.yml'
+        const csvData = loadCsvFileSync(testDataCsvFileName, { columns: true, skip_empty_lines: true })
+        const yamlData = loadJsonFileSync(testDataYamlFileName)
+        expect(csvData).toEqual(yamlData)
+    })
+
+    it('saveCsvFileSync - save records to a CSV format file synchronously', () => {
+        const outputCsvFileName = 'tmp/testdata.csv'
+        const testDataYamlFileName = 'src/fixtures/testdata.yml'
+        const yamlData = loadJsonFileSync(testDataYamlFileName)
+        saveCsvFileSync(outputCsvFileName, yamlData, { header: true/*, columns: ['id', 'userName', 'fullName', 'email']*/ })
+        const csvData = loadCsvFileSync(outputCsvFileName, { columns: true, skip_empty_lines: true })
+        expect(csvData).toEqual(yamlData)
+    })
+
     it('saveTextFileSync - try to save a file into a non-existing dir (throws exception)', () => {
         try {
             saveTextFileSync('tmp/nonExistingFileDir/file.txt', 'content')
@@ -135,6 +154,8 @@ describe('datafile', () => {
             'src/fixtures/templates/footer.html',
             'src/fixtures/templates/header.html',
             'src/fixtures/templates/main.html',
+            'src/fixtures/testdata.csv',
+            'src/fixtures/testdata.yml',
             'src/fixtures/tree/services/customers/customer/service.yml',
             'src/fixtures/tree/services/customers/service.yml',
             'src/fixtures/tree/services/defaults/noHeaders/service.yml',

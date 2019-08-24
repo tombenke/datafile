@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.validate = exports.loadSchema = exports.mergeTextFilesByFileNameSync = exports.mergeJsonFilesByFileNameSync = exports.mergeJsonFilesByKeySync = exports.findFilesSync = exports.listFilesSync = exports.loadData = exports.mergeJsonFilesSync = exports.loadJsonWithRefs = exports.loadJsonFileSync = exports.saveTextFileSync = exports.loadTextFileSync = undefined;
+exports.validate = exports.loadSchema = exports.mergeTextFilesByFileNameSync = exports.mergeJsonFilesByFileNameSync = exports.mergeJsonFilesByKeySync = exports.findFilesSync = exports.listFilesSync = exports.loadData = exports.mergeJsonFilesSync = exports.loadJsonWithRefs = exports.loadJsonFileSync = exports.stringifyToCsv = exports.saveCsvFileSync = exports.loadCsvFileSync = exports.stringifyToYaml = exports.saveYamlFileSync = exports.saveTextFileSync = exports.loadTextFileSync = undefined;
 
 var _lodash = require('lodash');
 
@@ -20,6 +20,14 @@ var _path2 = _interopRequireDefault(_path);
 var _jsYaml = require('js-yaml');
 
 var _jsYaml2 = _interopRequireDefault(_jsYaml);
+
+var _sync = require('csv-parse/lib/sync');
+
+var _sync2 = _interopRequireDefault(_sync);
+
+var _sync3 = require('csv-stringify/lib/sync');
+
+var _sync4 = _interopRequireDefault(_sync3);
 
 var _schemas = require('./schemas/');
 
@@ -84,6 +92,68 @@ var saveTextFileSync = exports.saveTextFileSync = function saveTextFileSync(file
         }
     }
 };
+
+/**
+ * Save content into a YAML format file
+ *
+ * @arg {String} fileName - The full path of the output file
+ * @arg {String} content - The content to dump in YAML format
+ * @arg {Object} options - The options of the `yaml.dump()` function. See the docs of [js-yaml](https://www.npmjs.com/package/js-yaml) package.
+ * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
+ *
+ * @function
+ */
+var saveYamlFileSync = exports.saveYamlFileSync = function saveYamlFileSync(fileName, content, options) {
+    var raiseErrors = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+    return saveTextFileSync(fileName, _jsYaml2.default.dump(content), raiseErrors);
+};
+
+/**
+ * Dump an object into a YAML format string
+ *
+ * It is an alias to the `yaml.dump()` function of the [js-yaml](https://www.npmjs.com/package/js-yaml) package.
+ *
+ * @function
+ */
+var stringifyToYaml = exports.stringifyToYaml = _jsYaml2.default.dump;
+
+/**
+ * Load records from a CSV format file
+ *
+ * @arg {String} fileName - The full path of the input file
+ * @arg {Object} options - The options of the `yaml.dump()` function. See the docs of [js-yaml](https://www.npmjs.com/package/js-yaml) package.
+ * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
+ *
+ * @function
+ */
+var loadCsvFileSync = exports.loadCsvFileSync = function loadCsvFileSync(dataPath, options) {
+    var raiseErrors = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+    return (0, _sync2.default)(loadTextFileSync(dataPath, raiseErrors), options);
+};
+
+/**
+ * Save content into a CSV format file
+ *
+ * @arg {String} fileName - The full path of the output file
+ * @arg {String} content - The content to dump in CSV format
+ * @arg {Object} options - The options of the `stringify()` function. See the docs of [csv-stringify](https://csv.js.org/stringify/api/) package.
+ * @arg {Boolean} raiseErrors - If true then exit with process errorCode: 1 in case of error otherwise does nothing. Default: `true`.
+ *
+ * @function
+ */
+var saveCsvFileSync = exports.saveCsvFileSync = function saveCsvFileSync(fileName, content, options) {
+    var raiseErrors = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+    return saveTextFileSync(fileName, (0, _sync4.default)(content, options), raiseErrors);
+};
+
+/**
+ * Dump an object into a CSV format string
+ *
+ * It is an alias of the `stringify()` function of the [csv-stringify](https://csv.js.org/stringify/api/) package.
+ *
+ * @function
+ */
+var stringifyToCsv = exports.stringifyToCsv = _sync4.default;
 
 /**
  * Load JSON/YAML datafile
