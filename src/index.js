@@ -129,7 +129,7 @@ export const loadJsonFileSync = (fileName, raiseErrors = true) => {
 
     if (fileName) {
         try {
-            content = yaml.load(fs.readFileSync(path.resolve(fileName)/*, { encoding: 'utf8' }*/))
+            content = yaml.load(fs.readFileSync(path.resolve(fileName) /*, { encoding: 'utf8' }*/))
         } catch (err) {
             if (raiseErrors) {
                 throw err

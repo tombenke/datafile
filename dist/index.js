@@ -174,7 +174,7 @@ var loadJsonFileSync = exports.loadJsonFileSync = function loadJsonFileSync(file
 
     if (fileName) {
         try {
-            content = _jsYaml2.default.safeLoad(_fs2.default.readFileSync(_path2.default.resolve(fileName), { encoding: 'utf8' }));
+            content = _jsYaml2.default.load(_fs2.default.readFileSync(_path2.default.resolve(fileName) /*, { encoding: 'utf8' }*/));
         } catch (err) {
             if (raiseErrors) {
                 throw err;
@@ -209,7 +209,7 @@ var loadJsonWithRefs = exports.loadJsonWithRefs = function loadJsonWithRefs(file
         filter: ['relative', 'remote'],
         loaderOptions: {
             processContent: function processContent(res, callback) {
-                callback(null, _jsYaml2.default.safeLoad(res.text));
+                callback(null, _jsYaml2.default.load(res.text));
             }
         }
     }).then(function (results) {
