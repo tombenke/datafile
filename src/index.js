@@ -129,7 +129,7 @@ export const loadJsonFileSync = (fileName, raiseErrors = true) => {
 
     if (fileName) {
         try {
-            content = yaml.safeLoad(fs.readFileSync(path.resolve(fileName), { encoding: 'utf8' }))
+            content = yaml.load(fs.readFileSync(path.resolve(fileName)/*, { encoding: 'utf8' }*/))
         } catch (err) {
             if (raiseErrors) {
                 throw err
@@ -164,7 +164,7 @@ export const loadJsonWithRefs = (fileName) => {
         filter: ['relative', 'remote'],
         loaderOptions: {
             processContent: (res, callback) => {
-                callback(null, yaml.safeLoad(res.text))
+                callback(null, yaml.load(res.text))
             }
         }
     }).then((results) => {
