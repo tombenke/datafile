@@ -24,7 +24,7 @@ import { resolveRefs } from 'json-refs'
  *
  * @function
  */
-export const loadTextFileSync = function(fileName, raiseErrors = true) {
+export const loadTextFileSync = function (fileName, raiseErrors = true) {
     let content = null
 
     try {
@@ -155,7 +155,7 @@ export const loadJsonFileSync = (fileName, raiseErrors = true) => {
  *
  * @function
  */
-export const loadJsonWithRefs = fileName => {
+export const loadJsonWithRefs = (fileName) => {
     const location = path.resolve(fileName)
     const root = loadJsonFileSync(location, true)
 
@@ -167,7 +167,7 @@ export const loadJsonWithRefs = fileName => {
                 callback(null, yaml.safeLoad(res.text))
             }
         }
-    }).then(results => {
+    }).then((results) => {
         return Promise.resolve(results)
     })
 }
@@ -226,7 +226,7 @@ const mergeJsonFileSync = (acc, dataFileName) => _.merge({}, acc, loadJsonFileSy
  *
  * @function
  */
-export const mergeJsonFilesSync = listOfJsonFiles => _.reduce(listOfJsonFiles, mergeJsonFileSync, {})
+export const mergeJsonFilesSync = (listOfJsonFiles) => _.reduce(listOfJsonFiles, mergeJsonFileSync, {})
 
 /**
  * Load the listed data files and merge them into a single object.
@@ -238,7 +238,7 @@ export const mergeJsonFilesSync = listOfJsonFiles => _.reduce(listOfJsonFiles, m
  *
  * @function
  */
-export const loadData = listOfJsonFiles => mergeJsonFilesSync(listOfJsonFiles)
+export const loadData = (listOfJsonFiles) => mergeJsonFilesSync(listOfJsonFiles)
 
 /**
  * List files of a directory recursively or top level only
@@ -256,7 +256,7 @@ export const loadData = listOfJsonFiles => mergeJsonFilesSync(listOfJsonFiles)
  */
 export const listFilesSync = (baseDir, recurse = true) => {
     if (fs.statSync(baseDir).isDirectory()) {
-        return _.flatMap(fs.readdirSync(baseDir), f =>
+        return _.flatMap(fs.readdirSync(baseDir), (f) =>
             recurse
                 ? listFilesSync(path.join(baseDir, f), recurse)
                 : fs.statSync(path.join(baseDir, f)).isDirectory()
@@ -287,7 +287,7 @@ export const findFilesSync = (baseDir, pattern, recurse = true, splitBaseDir = f
         _.filter(listFilesSync(baseDir, recurse), (name, index, dir) => {
             return _.isArray(_.last(name.split('/')).match(pattern))
         }),
-        fullPath => (splitBaseDir ? fullPath.slice(baseDir.length) : fullPath)
+        (fullPath) => (splitBaseDir ? fullPath.slice(baseDir.length) : fullPath)
     )
 
 /**
@@ -301,7 +301,7 @@ export const findFilesSync = (baseDir, pattern, recurse = true, splitBaseDir = f
  *
  * @function
  */
-const mergeJsonFileByKeySync = keyProp => (acc, dataFileName) => {
+const mergeJsonFileByKeySync = (keyProp) => (acc, dataFileName) => {
     const data = loadJsonFileSync(dataFileName)
     if (_.has(data, keyProp)) {
         const key = data[keyProp]

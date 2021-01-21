@@ -94,7 +94,9 @@ describe('datafile', function () {
         var outputCsvFileName = 'tmp/testdata.csv';
         var testDataYamlFileName = 'src/fixtures/testdata.yml';
         var yamlData = (0, _index.loadJsonFileSync)(testDataYamlFileName);
-        (0, _index.saveCsvFileSync)(outputCsvFileName, yamlData, { header: true /*, columns: ['id', 'userName', 'fullName', 'email']*/ });
+        (0, _index.saveCsvFileSync)(outputCsvFileName, yamlData, {
+            header: true /*, columns: ['id', 'userName', 'fullName', 'email']*/
+        });
         var csvData = (0, _index.loadCsvFileSync)(outputCsvFileName, { columns: true, skip_empty_lines: true });
         (0, _expect2.default)(csvData).toEqual(yamlData);
     });

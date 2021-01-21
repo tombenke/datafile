@@ -26,7 +26,7 @@ const js = new JaySchema()
  *
  * @function
  */
-const loadSchema = function(schemaBasePath, fullSchemaFileName) {
+const loadSchema = function (schemaBasePath, fullSchemaFileName) {
     const scfPath = fullSchemaFileName.split('/')
     const schemaFileName = scfPath[scfPath.length - 1]
     let mainSchema = null
@@ -37,7 +37,7 @@ const loadSchema = function(schemaBasePath, fullSchemaFileName) {
         const missingSchemas = js.register(mainSchema)
 
         // Next, load the missing sub-schemas recursively
-        missingSchemas.forEach(function(missingSchema) {
+        missingSchemas.forEach(function (missingSchema) {
             loadSchema(schemaBasePath, missingSchema)
         })
     } catch (err) {
@@ -56,7 +56,7 @@ const loadSchema = function(schemaBasePath, fullSchemaFileName) {
  *
  * @function
  */
-exports.validate = function(content, schemaBasePath, schemaFileName) {
+exports.validate = function (content, schemaBasePath, schemaFileName) {
     const schema = loadSchema(schemaBasePath, schemaFileName)
 
     return js.validate(content, schema)

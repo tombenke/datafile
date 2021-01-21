@@ -20,20 +20,20 @@ import {
     loadData // alias mergeJsonFilesSync, DEPRECATED
 } from './index'
 
-const destCleanup = function(cb) {
+const destCleanup = function (cb) {
     const dest = path.resolve('./tmp/')
     console.log('Remove: ', dest)
     rimraf(dest, cb)
 }
 
-before(function(done) {
-    destCleanup(function() {
+before(function (done) {
+    destCleanup(function () {
         fs.mkdirSync(path.resolve('./tmp'))
         done()
     })
 })
 
-after(function(done) {
+after(function (done) {
     destCleanup(done)
 })
 
@@ -86,7 +86,9 @@ describe('datafile', () => {
         const outputCsvFileName = 'tmp/testdata.csv'
         const testDataYamlFileName = 'src/fixtures/testdata.yml'
         const yamlData = loadJsonFileSync(testDataYamlFileName)
-        saveCsvFileSync(outputCsvFileName, yamlData, { header: true/*, columns: ['id', 'userName', 'fullName', 'email']*/ })
+        saveCsvFileSync(outputCsvFileName, yamlData, {
+            header: true /*, columns: ['id', 'userName', 'fullName', 'email']*/
+        })
         const csvData = loadCsvFileSync(outputCsvFileName, { columns: true, skip_empty_lines: true })
         expect(csvData).toEqual(yamlData)
     })
@@ -272,8 +274,8 @@ describe('datafile', () => {
         })
     })
 
-    it('loadJsonWithRefs', done => {
-        loadJsonWithRefs('./src/fixtures/refs/root.yml').then(results => {
+    it('loadJsonWithRefs', (done) => {
+        loadJsonWithRefs('./src/fixtures/refs/root.yml').then((results) => {
             const expected = [
                 '#/server/protocols',
                 '#/server/endpoints/0',
