@@ -1,10 +1,9 @@
 datafile
 ========
 
+[![Quality Check](https://github.com/tombenke/datafile/actions/workflows/quality_check.yml/badge.svg)](https://github.com/tombenke/datafile/actions/workflows/quality_check.yml)
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 [![npm version][npm-badge]][npm-url]
-[![Build Status][travis-badge]][travis-url]
-[![Coveralls][BadgeCoveralls]][Coveralls]
 
 Generic utility functions for loading and merging data files.
 
@@ -53,8 +52,4 @@ Gain test coverage report:
 
 [npm-badge]: https://badge.fury.io/js/datafile.svg
 [npm-url]: https://badge.fury.io/js/datafile
-[travis-badge]: https://api.travis-ci.org/tombenke/datafile.svg
-[travis-url]: https://travis-ci.org/tombenke/datafile
-[Coveralls]: https://coveralls.io/github/tombenke/datafile?branch=master
-[BadgeCoveralls]: https://coveralls.io/repos/github/tombenke/datafile/badge.svg?branch=master
 
