@@ -3,8 +3,8 @@ import * as _ from 'lodash'
 import fs from 'fs'
 import path from 'path'
 import yaml from 'js-yaml'
-import parseCsvSync from 'csv-parse/lib/sync'
-import stringifyCsvSync from 'csv-stringify/lib/sync'
+import { parse } from 'csv-parse/sync'
+import { stringify } from 'csv-stringify/sync'
 import * as schemas from './schemas/'
 import { resolveRefs } from 'json-refs'
 
@@ -88,7 +88,7 @@ export const stringifyToYaml = yaml.dump
  * @function
  */
 export const loadCsvFileSync = (dataPath, options, raiseErrors = true) =>
-    parseCsvSync(loadTextFileSync(dataPath, raiseErrors), options)
+    parse(loadTextFileSync(dataPath, raiseErrors), options)
 
 /**
  * Save content into a CSV format file
@@ -101,7 +101,7 @@ export const loadCsvFileSync = (dataPath, options, raiseErrors = true) =>
  * @function
  */
 export const saveCsvFileSync = (fileName, content, options, raiseErrors = true) =>
-    saveTextFileSync(fileName, stringifyCsvSync(content, options), raiseErrors)
+    saveTextFileSync(fileName, stringify(content, options), raiseErrors)
 
 /**
  * Dump an object into a CSV format string
@@ -110,7 +110,7 @@ export const saveCsvFileSync = (fileName, content, options, raiseErrors = true) 
  *
  * @function
  */
-export const stringifyToCsv = stringifyCsvSync
+export const stringifyToCsv = stringify
 
 /**
  * Load JSON/YAML datafile
