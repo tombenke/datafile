@@ -8,8 +8,6 @@ var _fs2 = _interopRequireDefault(_fs);
 
 var _rimraf = require('rimraf');
 
-var _rimraf2 = _interopRequireDefault(_rimraf);
-
 var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
@@ -31,7 +29,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var destCleanup = function destCleanup(cb) {
     var dest = _path2.default.resolve('./tmp/');
     console.log('Remove: ', dest);
-    (0, _rimraf2.default)(dest, cb);
+    (0, _rimraf.rimrafSync)(dest);
+    cb();
 };
 
 before(function (done) {
