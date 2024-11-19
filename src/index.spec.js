@@ -1,5 +1,5 @@
 import fs from 'fs'
-import rimraf from 'rimraf'
+import { rimrafSync } from 'rimraf'
 import path from 'path'
 import expect from 'expect'
 import * as _ from 'lodash'
@@ -23,7 +23,8 @@ import {
 const destCleanup = function (cb) {
     const dest = path.resolve('./tmp/')
     console.log('Remove: ', dest)
-    rimraf(dest, cb)
+    rimrafSync(dest)
+    cb()
 }
 
 before(function (done) {
