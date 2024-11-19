@@ -52,7 +52,7 @@
     "mocha": "^10.8.2",
     "mocha-lcov-reporter": "^1.2.0",
     "pre-push": "^0.1.4",
-    "prettier": "^2.7.1",
+    "prettier": "^3.3.3",
     "rimraf": "^3.0.2"
   },
   "prettier": {

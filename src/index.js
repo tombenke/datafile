@@ -260,8 +260,8 @@ export const listFilesSync = (baseDir, recurse = true) => {
             recurse
                 ? listFilesSync(path.join(baseDir, f), recurse)
                 : fs.statSync(path.join(baseDir, f)).isDirectory()
-                ? []
-                : f
+                  ? []
+                  : f
         )
     } else {
         return baseDir
