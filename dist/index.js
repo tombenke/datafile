@@ -21,13 +21,9 @@ var _jsYaml = require('js-yaml');
 
 var _jsYaml2 = _interopRequireDefault(_jsYaml);
 
-var _sync = require('csv-parse/lib/sync');
+var _sync = require('csv-parse/sync');
 
-var _sync2 = _interopRequireDefault(_sync);
-
-var _sync3 = require('csv-stringify/lib/sync');
-
-var _sync4 = _interopRequireDefault(_sync3);
+var _sync2 = require('csv-stringify/sync');
 
 var _schemas = require('./schemas/');
 
@@ -128,7 +124,7 @@ var stringifyToYaml = exports.stringifyToYaml = _jsYaml2.default.dump;
  */
 var loadCsvFileSync = exports.loadCsvFileSync = function loadCsvFileSync(dataPath, options) {
     var raiseErrors = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-    return (0, _sync2.default)(loadTextFileSync(dataPath, raiseErrors), options);
+    return (0, _sync.parse)(loadTextFileSync(dataPath, raiseErrors), options);
 };
 
 /**
@@ -143,7 +139,7 @@ var loadCsvFileSync = exports.loadCsvFileSync = function loadCsvFileSync(dataPat
  */
 var saveCsvFileSync = exports.saveCsvFileSync = function saveCsvFileSync(fileName, content, options) {
     var raiseErrors = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-    return saveTextFileSync(fileName, (0, _sync4.default)(content, options), raiseErrors);
+    return saveTextFileSync(fileName, (0, _sync2.stringify)(content, options), raiseErrors);
 };
 
 /**
@@ -153,7 +149,7 @@ var saveCsvFileSync = exports.saveCsvFileSync = function saveCsvFileSync(fileNam
  *
  * @function
  */
-var stringifyToCsv = exports.stringifyToCsv = _sync4.default;
+var stringifyToCsv = exports.stringifyToCsv = _sync2.stringify;
 
 /**
  * Load JSON/YAML datafile
